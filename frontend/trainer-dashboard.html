@@ -1,113 +1,1329 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Trainer Dashboard — BUYE-Online</title>
-<link rel="stylesheet" href="assets/style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trainer Dashboard | BUYE-Online</title>
+
+  <link rel="stylesheet" href="assets/style.css">
+
+  <style>
+    body {
+      margin: 0;
+      background: #f5f7fb;
+    }
+
+    .dashboard-wrap {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+
+    .topbar {
+      background: #16123A;
+      color: #fff;
+      border-radius: 16px;
+      padding: 18px 22px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 24px;
+    }
+
+    .topbar h1 {
+      margin: 0;
+      font-size: 22px;
+    }
+
+    .topbar p {
+      margin: 5px 0 0;
+      opacity: .8;
+      font-size: 14px;
+    }
+
+    .logout-btn {
+      border: 1px solid rgba(255,255,255,.35);
+      background: transparent;
+      color: #fff;
+      padding: 9px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .logout-btn:hover {
+      background: rgba(255,255,255,.1);
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 24px;
+      box-shadow: 0 5px 20px rgba(0,0,0,.06);
+    }
+
+    .card h2 {
+      margin-top: 0;
+      margin-bottom: 6px;
+      color: #16123A;
+    }
+
+    .card-subtitle {
+      margin-top: 0;
+      color: #6b7280;
+      font-size: 14px;
+      margin-bottom: 22px;
+    }
+
+    /* Profile */
+
+    .profile-layout {
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      gap: 28px;
+    }
+
+    .photo-section {
+      text-align: center;
+    }
+
+    .photo-preview {
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      object-fit: cover;
+      display: block;
+      margin: 0 auto 15px;
+      border: 5px solid #eef0f7;
+      background: #eef0f7;
+    }
+
+    .photo-placeholder {
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      margin: 0 auto 15px;
+      background: #eef0f7;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 60px;
+      color: #8b90a5;
+      border: 5px solid #eef0f7;
+    }
+
+    .file-input {
+      display: none;
+    }
+
+    .upload-btn {
+      display: inline-block;
+      padding: 10px 16px;
+      border-radius: 8px;
+      background: #16123A;
+      color: #fff;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .upload-btn:hover {
+      opacity: .9;
+    }
+
+    .field {
+      margin-bottom: 18px;
+    }
+
+    .field label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 7px;
+      color: #25283d;
+    }
+
+    .field input,
+    .field textarea {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 12px 13px;
+      border: 1px solid #d9dce7;
+      border-radius: 9px;
+      font-size: 15px;
+      outline: none;
+      font-family: inherit;
+    }
+
+    .field input:focus,
+    .field textarea:focus {
+      border-color: #16123A;
+    }
+
+    .field textarea {
+      min-height: 130px;
+      resize: vertical;
+    }
+
+    .readonly-info {
+      background: #f5f6fa;
+      border: 1px solid #e4e6ee;
+      padding: 12px 14px;
+      border-radius: 9px;
+      color: #555a70;
+    }
+
+    .save-btn {
+      border: 0;
+      background: #16123A;
+      color: #fff;
+      padding: 12px 22px;
+      border-radius: 9px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .save-btn:hover {
+      opacity: .9;
+    }
+
+    .save-btn:disabled {
+      opacity: .6;
+      cursor: not-allowed;
+    }
+
+    .status-message {
+      margin-top: 14px;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    /* Video */
+
+    .video-section {
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 1px solid #eceef4;
+    }
+
+    .video-preview {
+      width: 100%;
+      max-width: 560px;
+      max-height: 320px;
+      border-radius: 12px;
+      background: #111;
+      display: block;
+      margin-top: 14px;
+    }
+
+    .video-placeholder {
+      max-width: 560px;
+      min-height: 150px;
+      border-radius: 12px;
+      background: #f0f1f6;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #777d91;
+      margin-top: 14px;
+    }
+
+    .help-text {
+      font-size: 12px;
+      color: #777d91;
+      margin-top: 7px;
+    }
+
+    /* Work allocation */
+
+    .table-wrap {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th,
+    td {
+      padding: 13px 12px;
+      border-bottom: 1px solid #eceef4;
+      text-align: left;
+      font-size: 14px;
+    }
+
+    th {
+      background: #f7f8fb;
+      color: #34384d;
+    }
+
+    .empty-state {
+      padding: 25px;
+      text-align: center;
+      color: #777d91;
+    }
+
+    /* Class log */
+
+    .class-log-box {
+      background: #f7f8fc;
+      border-radius: 12px;
+      padding: 22px;
+      text-align: center;
+    }
+
+    .class-log-box p {
+      color: #686e82;
+      margin-top: 5px;
+    }
+
+    .class-log-btn {
+      display: inline-block;
+      text-decoration: none;
+      background: #16123A;
+      color: #fff;
+      padding: 12px 20px;
+      border-radius: 9px;
+      font-weight: 700;
+      margin-top: 10px;
+    }
+
+    /* Responsive */
+
+    @media (max-width: 760px) {
+      .dashboard-wrap {
+        padding: 14px;
+      }
+
+      .topbar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .profile-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .photo-section {
+        margin-bottom: 5px;
+      }
+
+      .card {
+        padding: 18px;
+      }
+    }
+  </style>
 </head>
+
 <body>
-  <div class="topbar">
-    <div><div class="brand">BUYE-Online</div><div class="tagline">Trainer Dashboard</div></div>
-    <div>
-      <span id="trainerName" style="margin-right:14px;"></span>
-      <button class="btn small ghost" style="color:#fff;border-color:#444" onclick="logout()">Logout</button>
+
+  <div class="dashboard-wrap">
+
+    <!-- TOP BAR -->
+    <div class="topbar">
+      <div>
+        <h1>Trainer Dashboard</h1>
+        <p>Welcome, <span id="trainerName">Trainer</span></p>
+      </div>
+
+      <button type="button" class="logout-btn" onclick="logoutTrainer()">
+        Logout
+      </button>
     </div>
+
+
+    <!-- PUBLIC TRAINER PROFILE -->
+    <section class="card">
+
+      <h2>My Public Trainer Profile</h2>
+
+      <p class="card-subtitle">
+        Keep your trainer profile updated. Visitors can see this information on the
+        public Trainers page.
+      </p>
+
+      <div class="profile-layout">
+
+        <!-- PHOTO -->
+        <div class="photo-section">
+
+          <div id="photoPlaceholder" class="photo-placeholder">
+            👤
+          </div>
+
+          <img
+            id="photoPreview"
+            class="photo-preview"
+            alt="Trainer profile photo"
+            style="display:none;"
+          >
+
+          <input
+            type="file"
+            id="photoInput"
+            class="file-input"
+            accept="image/jpeg,image/png,image/webp"
+          >
+
+          <label for="photoInput" class="upload-btn">
+            📷 Choose Photo
+          </label>
+
+          <div class="help-text">
+            JPG, PNG or WebP<br>
+            Maximum 5 MB
+          </div>
+
+          <div id="photoStatus" class="status-message"></div>
+
+        </div>
+
+
+        <!-- PROFILE DETAILS -->
+        <div>
+
+          <div class="field">
+            <label>Trainer Name</label>
+
+            <div id="profileName" class="readonly-info">
+              Loading...
+            </div>
+          </div>
+
+
+          <div class="field">
+            <label>IELTS Module</label>
+
+            <div id="profileModule" class="readonly-info">
+              Loading...
+            </div>
+          </div>
+
+
+          <div class="field">
+            <label for="yearsExperience">
+              Years of Experience
+            </label>
+
+            <input
+              type="number"
+              id="yearsExperience"
+              min="0"
+              max="50"
+              step="1"
+              placeholder="Example: 5"
+            >
+          </div>
+
+
+          <div class="field">
+            <label for="bio">
+              Professional Bio
+            </label>
+
+            <textarea
+              id="bio"
+              maxlength="1000"
+              placeholder="Write a short professional introduction about your teaching experience, expertise and approach..."
+            ></textarea>
+
+            <div class="help-text">
+              Maximum 1000 characters.
+            </div>
+          </div>
+
+
+          <!-- VIDEO -->
+          <div class="video-section">
+
+            <div class="field">
+              <label>
+                Self-Introduction Video
+              </label>
+
+              <input
+                type="file"
+                id="videoInput"
+                class="file-input"
+                accept="video/mp4,video/webm"
+              >
+
+              <label for="videoInput" class="upload-btn">
+                🎥 Choose Introduction Video
+              </label>
+
+              <div class="help-text">
+                MP4 or WebM · Maximum 10 MB
+              </div>
+
+              <div id="videoStatus" class="status-message"></div>
+
+              <div id="videoPlaceholder" class="video-placeholder">
+                No introduction video uploaded yet.
+              </div>
+
+              <video
+                id="videoPreview"
+                class="video-preview"
+                controls
+                style="display:none;"
+              ></video>
+
+            </div>
+
+          </div>
+
+
+          <button
+            type="button"
+            id="saveProfileBtn"
+            class="save-btn"
+            onclick="saveTrainerProfile()"
+          >
+            💾 Save Profile
+          </button>
+
+          <div id="profileStatus" class="status-message"></div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- WORK ALLOCATION -->
+    <section class="card">
+
+      <h2>My Work Allocation</h2>
+
+      <p class="card-subtitle">
+        View the work currently allocated to you by Admin.
+      </p>
+
+      <div class="table-wrap">
+
+        <table>
+          <thead>
+            <tr>
+              <th>Module</th>
+              <th>Assigned</th>
+              <th>Completed</th>
+              <th>Remaining</th>
+            </tr>
+          </thead>
+
+          <tbody id="workTableBody">
+            <tr>
+              <td colspan="4" class="empty-state">
+                Loading work allocation...
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+      </div>
+
+    </section>
+
+
+    <!-- LIVE CLASS LOG -->
+    <section class="card">
+
+      <h2>Live Class-Log Sheet</h2>
+
+      <p class="card-subtitle">
+        Record the classes you conduct using your Live Class-Log Sheet.
+      </p>
+
+      <div class="class-log-box">
+
+        <div style="font-size:42px;">
+          📋
+        </div>
+
+        <h3>Record Your Classes</h3>
+
+        <p>
+          Use your assigned Google Sheet to maintain your live class records.
+        </p>
+
+        <a
+          id="classLogLink"
+          href="#"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="class-log-btn"
+        >
+          Open My Live Class-Log
+        </a>
+
+      </div>
+
+    </section>
+
   </div>
 
-  <div class="main" style="padding:24px;">
-    <div class="stats-grid" id="profileCard"></div>
 
-    <div class="panel-head" style="margin-top:24px;"><h2>My Assigned Leads / Students</h2></div>
-    <table>
-      <thead><tr><th>Name</th><th>Phone</th><th>Module</th><th>Status</th><th>Update</th></tr></thead>
-      <tbody id="leadsTable"></tbody>
-    </table>
+<script>
 
-    <div class="panel-head" style="margin-top:24px;"><h2>My Work Allocation</h2></div>
-    <table>
-      <thead><tr><th>Module</th><th>Class Date</th><th>Status</th><th>Remarks</th><th>Action</th></tr></thead>
-      <tbody id="workTable"></tbody>
-    </table>
+/*
+====================================================
+TRAINER DASHBOARD
+====================================================
+*/
 
-    <div class="panel-head" style="margin-top:24px;"><h2>My Live Class-Log Sheet</h2></div>
-    <p style="font-size:14px;color:#6b6680;">Record every session here. Admin sees this instantly on their dashboard.</p>
-    <div id="sheetLinkWrap"></div>
-  </div>
 
-  <!-- MODAL: update lead status -->
-  <div class="modal-overlay" id="leadUpdateModal">
-    <div class="modal-box">
-      <h3>Update Lead</h3>
-      <form id="leadUpdateForm">
-        <input type="hidden" id="upLeadId" />
-        <label>Status</label>
-        <select id="upStatus"><option value="assigned">Assigned</option><option value="in-progress">In Progress</option><option value="converted">Converted</option><option value="lost">Lost</option></select>
-        <label>Notes</label>
-        <textarea id="upNotes"></textarea>
-        <button class="btn green" type="submit">Save</button>
-        <button type="button" class="btn ghost" style="margin-top:8px;" onclick="closeModal('leadUpdateModal')">Cancel</button>
-      </form>
-    </div>
-  </div>
+let currentTrainer = null;
 
-  <script src="assets/config.js"></script>
-  <script src="assets/app.js"></script>
-  <script>
-    function openModal(id) { document.getElementById(id).classList.add('show'); }
-    function closeModal(id) { document.getElementById(id).classList.remove('show'); }
-    function badge(status) { return '<span class="badge ' + (status || '').toLowerCase() + '">' + status + '</span>'; }
 
-    async function loadLeads() {
-      const data = await api('getLeads', {});
-      document.getElementById('leadsTable').innerHTML = data.leads.map(function (l) {
-        return '<tr><td>' + l.Name + '</td><td>' + l.Phone + '</td><td>' + l.Module + '</td><td>' + badge(l.Status) + '</td>' +
-          '<td><button class="btn small purple" onclick="openLeadUpdate(\'' + l.LeadID + '\',\'' + l.Status + '\')">Update</button></td></tr>';
-      }).join('') || '<tr><td colspan="5">No leads assigned yet.</td></tr>';
+/*
+----------------------------------------------------
+UTILITY
+----------------------------------------------------
+*/
+
+function setStatus(elementId, message, isError = false) {
+
+  const element = document.getElementById(elementId);
+
+  if (!element) return;
+
+  element.textContent = message;
+
+  element.style.color = isError ? '#c62828' : '#16803c';
+}
+
+
+/*
+----------------------------------------------------
+LOAD TRAINER PROFILE
+----------------------------------------------------
+*/
+
+async function loadTrainerProfile(user) {
+
+  try {
+
+    currentTrainer = user;
+
+    document.getElementById('trainerName').textContent =
+      user.Name || user.name || 'Trainer';
+
+    document.getElementById('profileName').textContent =
+      user.Name || user.name || 'Trainer';
+
+    document.getElementById('profileModule').textContent =
+      user.Module || user.module || 'Not assigned';
+
+    document.getElementById('yearsExperience').value =
+      user.YearsExperience ||
+      user.yearsExperience ||
+      '';
+
+    document.getElementById('bio').value =
+      user.Bio ||
+      user.bio ||
+      '';
+
+
+    /*
+    --------------------------------------------
+    PHOTO
+    --------------------------------------------
+    */
+
+    const photoUrl =
+      user.PhotoURL ||
+      user.photoUrl ||
+      '';
+
+    if (photoUrl) {
+      showPhoto(photoUrl);
     }
 
-    async function loadWork() {
-      const data = await api('getWorkAllocations', {});
-      document.getElementById('workTable').innerHTML = data.workAllocations.map(function (w) {
-        return '<tr><td>' + w.Module + '</td><td>' + (w.ClassDate || '—') + '</td><td>' + badge(w.Status) + '</td><td>' + (w.Remarks || '') + '</td>' +
-          '<td><button class="btn small green" onclick="markDone(\'' + w.AllocationID + '\')">Mark Completed</button></td></tr>';
-      }).join('') || '<tr><td colspan="5">No work allocated yet.</td></tr>';
+
+    /*
+    --------------------------------------------
+    VIDEO
+    --------------------------------------------
+    */
+
+    const videoUrl =
+      user.IntroVideoURL ||
+      user.introVideoUrl ||
+      '';
+
+    if (videoUrl) {
+      showVideo(videoUrl);
     }
 
-    async function markDone(id) {
-      try { await api('updateWorkAllocation', { allocationId: id, Status: 'completed' }); toast('Marked completed.', 'success'); loadWork(); }
-      catch (e) { toast(e.message, 'error'); }
+
+    /*
+    --------------------------------------------
+    CLASS LOG SHEET
+    --------------------------------------------
+    */
+
+    const sheetUrl =
+      user.LiveClassLogURL ||
+      user.liveClassLogUrl ||
+      user.ClassLogURL ||
+      user.classLogUrl ||
+      '';
+
+    if (sheetUrl) {
+
+      document.getElementById('classLogLink').href = sheetUrl;
+
+    } else {
+
+      document.getElementById('classLogLink').style.display = 'none';
+
     }
 
-    function openLeadUpdate(id, status) {
-      document.getElementById('upLeadId').value = id;
-      document.getElementById('upStatus').value = status || 'assigned';
-      openModal('leadUpdateModal');
+  } catch (error) {
+
+    console.error(error);
+
+  }
+
+}
+
+
+/*
+----------------------------------------------------
+PHOTO PREVIEW
+----------------------------------------------------
+*/
+
+function showPhoto(url) {
+
+  const preview = document.getElementById('photoPreview');
+  const placeholder = document.getElementById('photoPlaceholder');
+
+  preview.src = url;
+  preview.style.display = 'block';
+  placeholder.style.display = 'none';
+
+}
+
+
+/*
+----------------------------------------------------
+VIDEO PREVIEW
+----------------------------------------------------
+*/
+
+function showVideo(url) {
+
+  const video = document.getElementById('videoPreview');
+  const placeholder = document.getElementById('videoPlaceholder');
+
+  video.src = url;
+  video.style.display = 'block';
+  placeholder.style.display = 'none';
+
+}
+
+
+/*
+----------------------------------------------------
+PHOTO SELECTION
+----------------------------------------------------
+*/
+
+document.getElementById('photoInput').addEventListener(
+  'change',
+  async function () {
+
+    const file = this.files[0];
+
+    if (!file) return;
+
+
+    if (
+      ![
+        'image/jpeg',
+        'image/png',
+        'image/webp'
+      ].includes(file.type)
+    ) {
+
+      setStatus(
+        'photoStatus',
+        'Please choose a JPG, PNG or WebP image.',
+        true
+      );
+
+      this.value = '';
+
+      return;
     }
 
-    document.getElementById('leadUpdateForm').addEventListener('submit', async function (e) {
-      e.preventDefault();
-      try {
-        await api('updateLead', { leadId: document.getElementById('upLeadId').value, Status: document.getElementById('upStatus').value, Notes: document.getElementById('upNotes').value });
-        toast('Lead updated.', 'success'); closeModal('leadUpdateModal'); loadLeads();
-      } catch (err) { toast(err.message, 'error'); }
-    });
 
-    (async function init() {
-      const user = await requireLogin('trainer');
-      if (!user) return;
-      document.getElementById('trainerName').textContent = user.name;
-      document.getElementById('profileCard').innerHTML =
-        '<div class="stat-card"><div class="num">' + user.module + '</div><div class="label">Your Module</div></div>' +
-        '<div class="stat-card"><div class="num">' + user.email + '</div><div class="label">Email</div></div>';
+    if (file.size > 5 * 1024 * 1024) {
 
-      document.getElementById('sheetLinkWrap').innerHTML = user.trainerSheetUrl
-        ? '<a class="btn small green" style="display:inline-block;width:auto;" target="_blank" href="' + user.trainerSheetUrl + '">Open My Live Sheet ↗</a>'
-        : '<p style="color:#6b6680;">Your live sheet hasn\'t been created yet — ask admin, or use the WhatsApp button below.</p>';
+      setStatus(
+        'photoStatus',
+        'Photo must be 5 MB or smaller.',
+        true
+      );
 
-      loadLeads();
-      loadWork();
-    })();
-  </script>
+      this.value = '';
+
+      return;
+    }
+
+
+    /*
+    Show local preview immediately.
+    */
+
+    const localUrl = URL.createObjectURL(file);
+
+    showPhoto(localUrl);
+
+
+    /*
+    Upload automatically.
+    */
+
+    await uploadTrainerMedia(file, 'photo');
+
+  }
+);
+
+
+/*
+----------------------------------------------------
+VIDEO SELECTION
+----------------------------------------------------
+*/
+
+document.getElementById('videoInput').addEventListener(
+  'change',
+  async function () {
+
+    const file = this.files[0];
+
+    if (!file) return;
+
+
+    if (
+      ![
+        'video/mp4',
+        'video/webm'
+      ].includes(file.type)
+    ) {
+
+      setStatus(
+        'videoStatus',
+        'Please choose an MP4 or WebM video.',
+        true
+      );
+
+      this.value = '';
+
+      return;
+    }
+
+
+    if (file.size > 10 * 1024 * 1024) {
+
+      setStatus(
+        'videoStatus',
+        'Video must be 10 MB or smaller.',
+        true
+      );
+
+      this.value = '';
+
+      return;
+    }
+
+
+    /*
+    Local preview.
+    */
+
+    const localUrl = URL.createObjectURL(file);
+
+    showVideo(localUrl);
+
+
+    /*
+    Upload.
+    */
+
+    await uploadTrainerMedia(file, 'video');
+
+  }
+);
+
+
+/*
+----------------------------------------------------
+UPLOAD TRAINER MEDIA
+----------------------------------------------------
+*/
+
+async function uploadTrainerMedia(file, kind) {
+
+  const statusId =
+    kind === 'photo'
+      ? 'photoStatus'
+      : 'videoStatus';
+
+
+  setStatus(
+    statusId,
+    'Uploading...'
+  );
+
+
+  try {
+
+    const base64 = await fileToBase64(file);
+
+
+    const result = await api(
+      'uploadTrainerMedia',
+      {
+        kind: kind,
+        base64: base64,
+        mimeType: file.type,
+        fileName: file.name
+      }
+    );
+
+
+    if (!result || !result.success) {
+
+      throw new Error(
+        result && result.message
+          ? result.message
+          : 'Upload failed.'
+      );
+
+    }
+
+
+    /*
+    Update final public URL.
+    */
+
+    if (kind === 'photo' && result.url) {
+
+      showPhoto(result.url);
+
+    }
+
+
+    if (kind === 'video' && result.url) {
+
+      showVideo(result.url);
+
+    }
+
+
+    setStatus(
+      statusId,
+      'Uploaded successfully.'
+    );
+
+
+  } catch (error) {
+
+    console.error(error);
+
+    setStatus(
+      statusId,
+      error.message || 'Upload failed.',
+      true
+    );
+
+  }
+
+}
+
+
+/*
+----------------------------------------------------
+FILE TO BASE64
+----------------------------------------------------
+*/
+
+function fileToBase64(file) {
+
+  return new Promise(function(resolve, reject) {
+
+    const reader = new FileReader();
+
+    reader.onload = function() {
+
+      const result = reader.result;
+
+      /*
+      Remove:
+      data:image/jpeg;base64,
+      */
+
+      const base64 =
+        String(result).split(',')[1] || '';
+
+      resolve(base64);
+
+    };
+
+    reader.onerror = reject;
+
+    reader.readAsDataURL(file);
+
+  });
+
+}
+
+
+/*
+----------------------------------------------------
+SAVE PROFILE
+----------------------------------------------------
+*/
+
+async function saveTrainerProfile() {
+
+  const button =
+    document.getElementById('saveProfileBtn');
+
+  const years =
+    document.getElementById('yearsExperience').value.trim();
+
+  const bio =
+    document.getElementById('bio').value.trim();
+
+
+  /*
+  Validate years.
+  */
+
+  if (years !== '') {
+
+    const yearsNumber = Number(years);
+
+    if (
+      !Number.isInteger(yearsNumber) ||
+      yearsNumber < 0 ||
+      yearsNumber > 50
+    ) {
+
+      setStatus(
+        'profileStatus',
+        'Please enter a valid experience value between 0 and 50.',
+        true
+      );
+
+      return;
+    }
+
+  }
+
+
+  /*
+  Validate bio.
+  */
+
+  if (bio.length > 1000) {
+
+    setStatus(
+      'profileStatus',
+      'Bio cannot exceed 1000 characters.',
+      true
+    );
+
+    return;
+  }
+
+
+  button.disabled = true;
+
+  setStatus(
+    'profileStatus',
+    'Saving profile...'
+  );
+
+
+  try {
+
+    const result = await api(
+      'updateTrainerProfile',
+      {
+        yearsExperience: years,
+        bio: bio
+      }
+    );
+
+
+    if (!result || !result.success) {
+
+      throw new Error(
+        result && result.message
+          ? result.message
+          : 'Unable to save profile.'
+      );
+
+    }
+
+
+    setStatus(
+      'profileStatus',
+      'Profile saved successfully.'
+    );
+
+
+  } catch (error) {
+
+    console.error(error);
+
+    setStatus(
+      'profileStatus',
+      error.message || 'Unable to save profile.',
+      true
+    );
+
+  } finally {
+
+    button.disabled = false;
+
+  }
+
+}
+
+
+/*
+----------------------------------------------------
+LOAD WORK ALLOCATION
+----------------------------------------------------
+*/
+
+async function loadWork() {
+
+  const tbody =
+    document.getElementById('workTableBody');
+
+
+  try {
+
+    const result =
+      await api('getWorkAllocation', {});
+
+
+    if (
+      !result ||
+      !result.success ||
+      !result.work
+    ) {
+
+      tbody.innerHTML =
+        '<tr><td colspan="4" class="empty-state">' +
+        'No work allocation available.' +
+        '</td></tr>';
+
+      return;
+
+    }
+
+
+    const work =
+      Array.isArray(result.work)
+        ? result.work
+        : [];
+
+
+    if (!work.length) {
+
+      tbody.innerHTML =
+        '<tr><td colspan="4" class="empty-state">' +
+        'No work allocation available.' +
+        '</td></tr>';
+
+      return;
+
+    }
+
+
+    tbody.innerHTML = work.map(function(item) {
+
+      const module =
+        item.Module ||
+        item.module ||
+        '';
+
+      const assigned =
+        item.Assigned ||
+        item.assigned ||
+        0;
+
+      const completed =
+        item.Completed ||
+        item.completed ||
+        0;
+
+      const remaining =
+        item.Remaining !== undefined
+          ? item.Remaining
+          : Math.max(
+              Number(assigned) - Number(completed),
+              0
+            );
+
+
+      return `
+        <tr>
+          <td>${escapeHtml(module)}</td>
+          <td>${escapeHtml(assigned)}</td>
+          <td>${escapeHtml(completed)}</td>
+          <td>${escapeHtml(remaining)}</td>
+        </tr>
+      `;
+
+    }).join('');
+
+
+  } catch (error) {
+
+    console.error(error);
+
+    tbody.innerHTML =
+      '<tr><td colspan="4" class="empty-state">' +
+      'Unable to load work allocation.' +
+      '</td></tr>';
+
+  }
+
+}
+
+
+/*
+----------------------------------------------------
+HTML ESCAPE
+----------------------------------------------------
+*/
+
+function escapeHtml(value) {
+
+  return String(value ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+
+}
+
+
+/*
+----------------------------------------------------
+LOGOUT
+----------------------------------------------------
+*/
+
+function logoutTrainer() {
+
+  try {
+
+    if (typeof logout === 'function') {
+
+      logout();
+
+      return;
+
+    }
+
+  } catch (error) {
+
+    console.error(error);
+
+  }
+
+
+  /*
+  Fallback if the existing app.js logout
+  function is unavailable.
+  */
+
+  localStorage.removeItem('buye_session');
+  localStorage.removeItem('session');
+  localStorage.removeItem('user');
+
+  window.location.href = 'index.html';
+
+}
+
+
+/*
+----------------------------------------------------
+INITIALIZE
+----------------------------------------------------
+*/
+
+async function initTrainerDashboard() {
+
+  try {
+
+    /*
+    Existing authentication.
+    */
+
+    const user =
+      await requireLogin('trainer');
+
+
+    if (!user) {
+      return;
+    }
+
+
+    currentTrainer = user;
+
+
+    /*
+    Load profile.
+    */
+
+    await loadTrainerProfile(user);
+
+
+    /*
+    Load work allocation.
+    */
+
+    await loadWork();
+
+
+  } catch (error) {
+
+    console.error(
+      'Trainer dashboard initialization failed:',
+      error
+    );
+
+  }
+
+}
+
+
+document.addEventListener(
+  'DOMContentLoaded',
+  initTrainerDashboard
+);
+
+</script>
+
+<script src="assets/config.js"></script>
+<script src="assets/app.js"></script>
+
 </body>
 </html>

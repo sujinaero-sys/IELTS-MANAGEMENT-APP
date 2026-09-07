@@ -1,200 +1,2912 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Meet Our Trainers — BUYE-Online</title>
-<link rel="stylesheet" href="assets/style.css" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Meet Our IELTS Trainers | BUYE-Online</title>
+
+<meta
+  name="description"
+  content="Meet BUYE-Online IELTS trainers and find the right trainer for your IELTS journey."
+>
+
+<link rel="stylesheet" href="assets/style.css">
+
 <style>
-  .hero { text-align: center; padding: 40px 20px 10px; }
-  .hero h1 { font-size: 30px; margin-bottom: 6px; }
-  .hero p { color: #6b6680; font-size: 15px; }
-  .trainer-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 22px;
-    padding: 24px;
-    max-width: 1200px;
-    margin: 0 auto;
+:root {
+  --navy: #17143f;
+  --navy2: #27215b;
+  --green: #18b878;
+  --green2: #0fa568;
+  --gold: #f3bd43;
+  --text: #181a3d;
+  --muted: #70748a;
+  --line: #e8eaf1;
+  --white: #fff;
+  --soft: #f7f8fc;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family:
+    Inter,
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+
+  color: var(--text);
+
+  background:
+    radial-gradient(
+      circle at 10% 15%,
+      rgba(244, 220, 153, .28),
+      transparent 28%
+    ),
+    radial-gradient(
+      circle at 90% 35%,
+      rgba(93, 207, 174, .15),
+      transparent 30%
+    ),
+    linear-gradient(
+      135deg,
+      #fffdf7,
+      #f7f9fc 55%,
+      #edf5f5
+    );
+
+  overflow-x: hidden;
+}
+
+
+/* =====================================================
+   HEADER
+===================================================== */
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+
+  background: rgba(23, 20, 63, .96);
+
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+
+  color: #fff;
+
+  box-shadow:
+    0 4px 20px rgba(20, 17, 55, .08);
+}
+
+.header-inner {
+  max-width: 1280px;
+  margin: auto;
+
+  padding: 14px 28px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.brand {
+  color: #fff;
+  text-decoration: none;
+}
+
+.brand-name {
+  display: block;
+  font-size: 21px;
+  font-weight: 900;
+  letter-spacing: -.5px;
+}
+
+.brand-tagline {
+  display: block;
+  margin-top: 1px;
+  font-size: 11px;
+  opacity: .72;
+}
+
+.login-link {
+  color: #fff;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 800;
+
+  padding: 9px 14px;
+  border-radius: 999px;
+
+  transition: background .25s ease;
+}
+
+.login-link:hover {
+  background: rgba(255,255,255,.1);
+}
+
+
+/* =====================================================
+   HERO
+===================================================== */
+
+.hero {
+  text-align: center;
+
+  max-width: 850px;
+  margin: auto;
+
+  padding: 42px 20px 18px;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  padding: 7px 13px;
+
+  border-radius: 999px;
+
+  background: rgba(255,255,255,.8);
+
+  border: 1px solid rgba(23,20,63,.08);
+
+  color: var(--navy);
+
+  font-size: 11px;
+  font-weight: 900;
+
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.eyebrow-dot {
+  width: 7px;
+  height: 7px;
+
+  border-radius: 50%;
+
+  background: var(--green);
+}
+
+.hero h1 {
+  margin: 16px 0 8px;
+
+  color: var(--navy);
+
+  font-size: clamp(30px, 4vw, 45px);
+
+  line-height: 1.05;
+
+  letter-spacing: -1.5px;
+}
+
+.hero p {
+  margin: 0 auto;
+
+  max-width: 700px;
+
+  color: var(--muted);
+
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+
+/* =====================================================
+   CAROUSEL
+===================================================== */
+
+.trainer-showcase {
+  position: relative;
+
+  width: 100%;
+
+  margin: 4px auto 0;
+
+  overflow: hidden;
+}
+
+.carousel-viewport {
+  position: relative;
+
+  width: min(100%, 1000px);
+
+  margin: auto;
+
+  overflow: hidden;
+
+  padding: 20px 0 26px;
+}
+
+.carousel-track {
+  display: flex;
+
+  width: 100%;
+
+  transition:
+    transform
+    .9s
+    cubic-bezier(.22,.61,.36,1);
+
+  will-change: transform;
+}
+
+.trainer-slide {
+  flex: 0 0 100%;
+
+  width: 100%;
+
+  padding: 0 20px;
+
+  opacity: .35;
+
+  transform: scale(.94);
+
+  transition:
+    opacity .7s ease,
+    transform .8s ease;
+}
+
+.trainer-slide.is-active {
+  opacity: 1;
+  transform: scale(1);
+}
+
+
+/* =====================================================
+   PREMIUM TRAINER CARD
+===================================================== */
+
+.trainer-card {
+  width: min(100%, 880px);
+
+  min-height: 0;
+
+  margin: auto;
+
+  display: grid;
+
+  grid-template-columns:
+    38%
+    62%;
+
+  overflow: hidden;
+
+  border-radius: 30px;
+
+  background:
+    rgba(255,255,255,.96);
+
+  border:
+    1px solid rgba(23,20,63,.07);
+
+  box-shadow:
+    0 30px 75px rgba(23,20,63,.14),
+    0 8px 25px rgba(23,20,63,.06);
+}
+
+
+/* =====================================================
+   PHOTO
+===================================================== */
+
+.trainer-media {
+  position: relative;
+
+  width: 100%;
+
+  min-height: 500px;
+
+  overflow: hidden;
+
+  background:
+    linear-gradient(
+      145deg,
+      #dff4e9,
+      #e9edf8
+    );
+
+  display: flex;
+
+  justify-content: center;
+  align-items: stretch;
+}
+
+.trainer-photo {
+  width: 100%;
+  height: 100%;
+
+  display: block;
+
+  object-fit: cover;
+
+  object-position: center top;
+
+  transition:
+    transform 1.2s
+    cubic-bezier(.22,.61,.36,1);
+}
+
+.trainer-slide.is-active
+.trainer-photo {
+  transform: scale(1.025);
+}
+
+.photo-fallback {
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  background:
+    radial-gradient(
+      circle at 50% 30%,
+      #514c87,
+      #17143f 75%
+    );
+
+  color: rgba(255,255,255,.9);
+
+  font-size: 80px;
+
+  font-weight: 600;
+}
+
+.featured-label {
+  position: absolute;
+
+  z-index: 5;
+
+  top: 22px;
+  left: 22px;
+
+  padding: 10px 16px;
+
+  border-radius: 14px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #18b878,
+      #0f9e68
+    );
+
+  color: #fff;
+
+  font-size: 11px;
+
+  font-weight: 900;
+
+  letter-spacing: 1px;
+
+  text-transform: uppercase;
+
+  box-shadow:
+    0 10px 25px rgba(24,184,120,.2);
+}
+
+.module-badge {
+  position: absolute;
+
+  z-index: 5;
+
+  left: 22px;
+  bottom: 22px;
+
+  padding: 10px 16px;
+
+  border-radius: 999px;
+
+  background:
+    rgba(23,20,63,.9);
+
+  color: #fff;
+
+  font-size: 13px;
+
+  font-weight: 900;
+
+  backdrop-filter: blur(10px);
+}
+
+
+/* =====================================================
+   CONTENT
+===================================================== */
+
+.trainer-content {
+  padding: 38px 40px 30px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  justify-content: center;
+}
+
+.mini-brand {
+  color: #777b91;
+
+  font-size: 11px;
+
+  font-weight: 900;
+
+  letter-spacing: 3px;
+
+  margin-bottom: 17px;
+}
+
+.trainer-name {
+  margin: 0;
+
+  color: var(--navy);
+
+  font-size:
+    clamp(26px, 3vw, 37px);
+
+  line-height: 1.03;
+
+  letter-spacing: -1.3px;
+}
+
+.trainer-role {
+  margin-top: 9px;
+
+  color: var(--green);
+
+  font-size: 17px;
+
+  font-weight: 900;
+}
+
+.trainer-meta {
+  display: flex;
+
+  flex-wrap: wrap;
+
+  gap: 8px;
+
+  margin-top: 18px;
+}
+
+.meta-pill {
+  padding: 8px 12px;
+
+  border-radius: 999px;
+
+  background: #f4f5fa;
+
+  color: #555a70;
+
+  font-size: 11px;
+
+  font-weight: 800;
+}
+
+.trainer-bio {
+  margin-top: 19px;
+
+  color: #666a80;
+
+  font-size: 14px;
+
+  line-height: 1.65;
+
+  max-width: 510px;
+}
+
+
+/* =====================================================
+   EXPERTISE
+===================================================== */
+
+.expertise-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(4, 1fr);
+
+  gap: 9px;
+
+  margin-top: 23px;
+}
+
+.expertise-item {
+  text-align: center;
+}
+
+.expertise-icon {
+  width: 48px;
+  height: 48px;
+
+  margin: auto;
+
+  border-radius: 50%;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  font-size: 20px;
+
+  background: #eefaf5;
+}
+
+.expertise-item:nth-child(2)
+.expertise-icon {
+  background: #fff5df;
+}
+
+.expertise-item:nth-child(3)
+.expertise-icon {
+  background: #edf5ff;
+}
+
+.expertise-item:nth-child(4)
+.expertise-icon {
+  background: #f4edff;
+}
+
+.expertise-label {
+  margin-top: 7px;
+
+  color: #44485f;
+
+  font-size: 10px;
+
+  font-weight: 800;
+
+  line-height: 1.25;
+}
+
+
+/* =====================================================
+   ACTIONS
+===================================================== */
+
+.trainer-actions {
+  display: grid;
+
+  grid-template-columns:
+    1fr
+    1fr;
+
+  gap: 12px;
+
+  margin-top: 25px;
+
+  padding-top: 20px;
+
+  border-top:
+    1px solid var(--line);
+}
+
+.trainer-btn {
+  min-height: 55px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 9px;
+
+  border-radius: 14px;
+
+  text-decoration: none;
+
+  font-size: 13px;
+
+  font-weight: 900;
+
+  cursor: pointer;
+
+  transition:
+    transform .25s ease,
+    box-shadow .25s ease;
+}
+
+.trainer-btn:hover {
+  transform: translateY(-2px);
+}
+
+.btn-connect {
+  border: 0;
+
+  background:
+    linear-gradient(
+      135deg,
+      #1cbd7e,
+      #10a66b
+    );
+
+  color: #fff;
+
+  box-shadow:
+    0 12px 28px rgba(24,184,120,.22);
+}
+
+.btn-whatsapp {
+  background: #fff;
+
+  color: var(--navy);
+
+  border:
+    2px solid #19b878;
+}
+
+.btn-whatsapp:hover {
+  box-shadow:
+    0 10px 25px rgba(24,184,120,.12);
+}
+
+
+/* =====================================================
+   CARD FOOTER
+===================================================== */
+
+.trainer-footer {
+  margin-top: 20px;
+
+  padding: 13px 15px;
+
+  border-radius: 14px;
+
+  background:
+    linear-gradient(
+      100deg,
+      #eefaf5,
+      #f5f8fb
+    );
+
+  color: #62667b;
+
+  font-size: 12px;
+
+  font-style: italic;
+
+  line-height: 1.4;
+}
+
+
+/* =====================================================
+   ARROWS
+===================================================== */
+
+.carousel-controls {
+  position: absolute;
+
+  top: 50%;
+
+  left: 50%;
+
+  width: min(100%, 1020px);
+
+  transform:
+    translate(-50%, -50%);
+
+  z-index: 30;
+
+  display: flex;
+
+  justify-content: space-between;
+
+  pointer-events: none;
+}
+
+.carousel-arrow {
+  pointer-events: auto;
+
+  width: 48px;
+  height: 48px;
+
+  border: 1px solid #e4e6ee;
+
+  border-radius: 50%;
+
+  background: rgba(255,255,255,.96);
+
+  color: var(--navy);
+
+  font-family: Arial, sans-serif;
+
+  font-size: 27px;
+
+  line-height: 1;
+
+  cursor: pointer;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  box-shadow:
+    0 10px 30px rgba(23,20,63,.13);
+
+  transition:
+    transform .25s ease;
+}
+
+.carousel-arrow:hover {
+  transform: scale(1.08);
+}
+
+
+/* =====================================================
+   DOTS + TIMER
+===================================================== */
+
+.carousel-dots {
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  gap: 7px;
+}
+
+.carousel-dot {
+  width: 8px;
+  height: 8px;
+
+  border: 0;
+
+  padding: 0;
+
+  border-radius: 50%;
+
+  background: #c9ccd6;
+
+  cursor: pointer;
+
+  transition:
+    width .3s ease;
+}
+
+.carousel-dot.active {
+  width: 28px;
+
+  border-radius: 20px;
+
+  background: var(--navy);
+}
+
+.carousel-timer {
+  width: 150px;
+  height: 3px;
+
+  margin: 10px auto 0;
+
+  overflow: hidden;
+
+  border-radius: 10px;
+
+  background: #e4e6ed;
+}
+
+.carousel-timer-bar {
+  width: 0;
+  height: 100%;
+
+  background:
+    linear-gradient(
+      90deg,
+      var(--green),
+      var(--gold)
+    );
+}
+
+.carousel-timer-bar.running {
+  animation:
+    trainerTimer 10s
+    linear forwards;
+}
+
+@keyframes trainerTimer {
+  from {
+    width: 0;
   }
-  .trainer-card {
-    background: #fff;
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    box-shadow: var(--shadow);
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-  }
-  .trainer-photo {
+
+  to {
     width: 100%;
-    height: 220px;
-    object-fit: cover;
-    background: linear-gradient(135deg, var(--blue), var(--purple));
   }
-  .trainer-body { padding: 16px 18px 20px; flex: 1; display: flex; flex-direction: column; }
-  .trainer-name { font-size: 18px; font-weight: 800; margin: 0 0 2px; }
-  .trainer-meta { font-size: 13px; color: #6b6680; margin-bottom: 10px; }
-  .trainer-bio { font-size: 13.5px; color: #333; flex: 1; margin-bottom: 12px; }
-  .trainer-video-wrap { margin-bottom: 12px; }
-  .trainer-video-wrap iframe { width: 100%; height: 180px; border: none; border-radius: 10px; }
-  .connect-row { display: flex; gap: 8px; }
-  .connect-row .btn { margin-top: 0; }
+}
+
+
+/* =====================================================
+   CLOSING
+===================================================== */
+
+.closing-section {
+  max-width: 700px;
+
+  margin: 30px auto 65px;
+
+  padding: 0 20px;
+
+  text-align: center;
+}
+
+.closing-section h2 {
+  margin: 0 0 8px;
+
+  color: var(--navy);
+
+  font-size: 26px;
+}
+
+.closing-section p {
+  color: var(--muted);
+
+  font-size: 14px;
+
+  line-height: 1.6;
+}
+
+
+/* =====================================================
+   WHATSAPP FLOAT
+===================================================== */
+
+.whatsapp-float {
+  position: fixed;
+
+  right: 24px;
+  bottom: 22px;
+
+  z-index: 900;
+
+  width: 56px;
+  height: 56px;
+
+  border-radius: 50%;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  background: #20b77e;
+
+  color: #fff;
+
+  text-decoration: none;
+
+  font-size: 25px;
+
+  box-shadow:
+    0 14px 35px rgba(24,184,120,.3);
+
+  transition:
+    transform .25s ease;
+}
+
+.whatsapp-float:hover {
+  transform: scale(1.08);
+}
+
+
+/* =====================================================
+   LOADING
+===================================================== */
+
+.loading {
+  padding: 70px 20px;
+
+  text-align: center;
+
+  color: var(--muted);
+}
+
+.loader {
+  width: 42px;
+  height: 42px;
+
+  margin: auto auto 14px;
+
+  border-radius: 50%;
+
+  border:
+    4px solid #e7e8ef;
+
+  border-top-color: var(--navy);
+
+  animation:
+    spin .8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.empty-state {
+  max-width: 600px;
+
+  margin: 60px auto;
+
+  padding: 40px 25px;
+
+  text-align: center;
+
+  border-radius: 24px;
+
+  background: #fff;
+
+  box-shadow:
+    0 20px 60px rgba(23,20,63,.08);
+}
+
+
+/* =====================================================
+   MODAL
+===================================================== */
+
+.modal-backdrop {
+  position: fixed;
+
+  inset: 0;
+
+  z-index: 2000;
+
+  display: none;
+
+  align-items: center;
+  justify-content: center;
+
+  padding: 20px;
+
+  background:
+    rgba(10,8,30,.68);
+
+  backdrop-filter: blur(9px);
+}
+
+.modal-backdrop.open {
+  display: flex;
+}
+
+.requirement-modal {
+  width: min(100%, 540px);
+
+  max-height: 90vh;
+
+  overflow-y: auto;
+
+  padding: 28px;
+
+  border-radius: 24px;
+
+  background: #fff;
+
+  box-shadow:
+    0 35px 100px rgba(0,0,0,.28);
+}
+
+.modal-header {
+  display: flex;
+
+  justify-content: space-between;
+
+  gap: 15px;
+}
+
+.modal-header h2 {
+  margin: 0;
+
+  color: var(--navy);
+}
+
+.modal-header p {
+  color: var(--muted);
+
+  font-size: 13px;
+
+  line-height: 1.5;
+}
+
+.modal-close {
+  width: 38px;
+  height: 38px;
+
+  flex: 0 0 auto;
+
+  border: 0;
+
+  border-radius: 50%;
+
+  background: #f1f2f6;
+
+  color: var(--navy);
+
+  font-size: 20px;
+
+  cursor: pointer;
+}
+
+.form-group {
+  margin-top: 16px;
+}
+
+.form-group label {
+  display: block;
+
+  margin-bottom: 6px;
+
+  color: #30334a;
+
+  font-size: 12px;
+
+  font-weight: 900;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+
+  padding: 12px;
+
+  border:
+    1px solid #dfe1e9;
+
+  border-radius: 10px;
+
+  font: inherit;
+
+  font-size: 14px;
+
+  outline: none;
+}
+
+.form-group textarea {
+  min-height: 90px;
+
+  resize: vertical;
+}
+
+.submit-requirement {
+  width: 100%;
+
+  margin-top: 20px;
+
+  padding: 13px;
+
+  border: 0;
+
+  border-radius: 10px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #1cbd7e,
+      #10a66b
+    );
+
+  color: #fff;
+
+  font-weight: 900;
+
+  cursor: pointer;
+}
+
+.form-status {
+  margin-top: 10px;
+
+  font-size: 13px;
+
+  font-weight: 700;
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media (max-width: 800px) {
+
+  .header-inner {
+    padding: 12px 17px;
+  }
+
+  .hero {
+    padding-top: 30px;
+  }
+
+  .hero h1 {
+    font-size: 30px;
+  }
+
+  .carousel-viewport {
+    padding:
+      10px 0
+      22px;
+  }
+
+  .trainer-slide {
+    padding: 0 16px;
+  }
+
+  .trainer-card {
+    grid-template-columns: 1fr;
+
+    max-width: 500px;
+
+    border-radius: 23px;
+  }
+
+  .trainer-media {
+    min-height: 0;
+
+    height: 330px;
+  }
+
+  .trainer-content {
+    padding:
+      25px 23px 22px;
+  }
+
+  .trainer-name {
+    font-size: 27px;
+  }
+
+  .trainer-role {
+    font-size: 15px;
+  }
+
+  .expertise-grid {
+    gap: 5px;
+  }
+
+  .expertise-icon {
+    width: 42px;
+    height: 42px;
+  }
+
+  .expertise-label {
+    font-size: 9px;
+  }
+
+  .trainer-actions {
+    gap: 8px;
+  }
+
+  .trainer-btn {
+    min-height: 50px;
+
+    font-size: 11px;
+  }
+
+  .carousel-controls {
+    width: calc(100% - 8px);
+  }
+
+  .carousel-arrow {
+    width: 42px;
+    height: 42px;
+
+    font-size: 23px;
+  }
+
+}
+
+
+/* =====================================================
+   SMALL MOBILE
+===================================================== */
+
+@media (max-width: 480px) {
+
+  .brand-name {
+    font-size: 18px;
+  }
+
+  .login-link {
+    font-size: 11px;
+    padding: 7px 9px;
+  }
+
+  .hero h1 {
+    font-size: 27px;
+  }
+
+  .hero p {
+    font-size: 13px;
+  }
+
+  .trainer-media {
+    height: 300px;
+  }
+
+  .trainer-content {
+    padding:
+      21px 18px 19px;
+  }
+
+  .trainer-name {
+    font-size: 23px;
+  }
+
+  .trainer-bio {
+    font-size: 13px;
+  }
+
+  .trainer-actions {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .trainer-btn {
+    min-height: 47px;
+  }
+
+  .expertise-label {
+    font-size: 8px;
+  }
+
+  .expertise-icon {
+    width: 38px;
+    height: 38px;
+
+    font-size: 17px;
+  }
+
+  .whatsapp-float {
+    right: 15px;
+    bottom: 15px;
+
+    width: 52px;
+    height: 52px;
+  }
+
+}
+
+
+/* =====================================================
+   REDUCED MOTION
+===================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+
+  .carousel-track,
+  .trainer-slide,
+  .trainer-photo {
+    transition: none !important;
+  }
+
+  .carousel-timer-bar.running {
+    animation: none;
+    width: 100%;
+  }
+
+}
 </style>
 </head>
+
+
 <body>
-  <div class="topbar">
-    <div><div class="brand">BUYE-Online</div><div class="tagline">Meet Our IELTS Trainers</div></div>
-    <div><a href="index.html" style="color:#fff;font-size:13px;">Trainer / Admin Login →</a></div>
+
+
+<!-- ===================================================
+     HEADER
+=================================================== -->
+
+<header class="site-header">
+
+  <div class="header-inner">
+
+    <a
+      href="index.html"
+      class="brand"
+    >
+      <span class="brand-name">
+        BUYE-Online
+      </span>
+
+      <span class="brand-tagline">
+        Learn, Grow, Excel
+      </span>
+    </a>
+
+
+    <a
+      href="index.html"
+      class="login-link"
+    >
+      Trainer / Admin Login →
+    </a>
+
   </div>
 
-  <div class="hero">
-    <h1>Learn from trainers who've walked the exam path</h1>
-    <p>Pick a trainer, watch their 1-minute intro, and tell us what you need — we'll reach out on WhatsApp right away.</p>
+</header>
+
+
+<!-- ===================================================
+     HERO
+=================================================== -->
+
+<section class="hero">
+
+  <div class="eyebrow">
+
+    <span class="eyebrow-dot"></span>
+
+    Meet Our IELTS Trainers
+
   </div>
 
-  <div class="trainer-grid" id="trainerGrid">
-    <p style="grid-column:1/-1;text-align:center;color:#6b6680;">Loading trainers...</p>
+
+  <h1>
+    Learn from the right trainer.
+  </h1>
+
+
+  <p>
+    Meet our IELTS trainers, explore their expertise,
+    and connect with the right person for your learning journey.
+  </p>
+
+</section>
+
+
+<!-- ===================================================
+     TRAINER SHOWCASE
+=================================================== -->
+
+<main
+  id="trainerShowcase"
+  class="trainer-showcase"
+>
+
+  <div
+    id="loading"
+    class="loading"
+  >
+
+    <div class="loader"></div>
+
+    Loading our trainers...
+
   </div>
 
-  <!-- Requirement form modal -->
-  <div class="modal-overlay" id="reqModal">
-    <div class="modal-box">
-      <h3 id="reqModalTitle">Tell us what you need</h3>
-      <form id="reqForm">
-        <input type="hidden" id="reqTrainerId" />
-        <label>Your Name</label>
-        <input type="text" id="reqName" required />
-        <label>Phone (WhatsApp number)</label>
-        <input type="tel" id="reqPhone" required placeholder="+91XXXXXXXXXX" />
-        <label>Email (optional)</label>
-        <input type="email" id="reqEmail" />
-        <label>Module you need help with</label>
-        <select id="reqModule">
-          <option>Speaking</option><option>Listening</option><option>Reading</option><option>Writing</option><option>All 4 modules</option>
-        </select>
-        <label>Your requirement</label>
-        <textarea id="reqRequirement" rows="3" placeholder="e.g. Target band 7, exam on 20th Oct, need weekend classes"></textarea>
-        <button class="btn green" type="submit">Send Requirement</button>
-        <button type="button" class="btn ghost" style="margin-top:8px;" onclick="closeModal('reqModal')">Cancel</button>
-      </form>
+
+  <div
+    id="emptyState"
+    class="empty-state"
+    style="display:none;"
+  >
+
+    <h2>
+      Our trainer team is being updated.
+    </h2>
+
+    <p>
+      Please check again shortly or contact
+      BUYE-Online through WhatsApp.
+    </p>
+
+  </div>
+
+
+  <div
+    id="carouselContainer"
+    style="display:none;"
+  >
+
+    <div class="carousel-viewport">
+
+      <div
+        id="carouselTrack"
+        class="carousel-track"
+      ></div>
+
+
+      <div class="carousel-controls">
+
+        <button
+          type="button"
+          id="prevBtn"
+          class="carousel-arrow"
+          aria-label="Previous trainer"
+        >
+          &#8249;
+        </button>
+
+
+        <button
+          type="button"
+          id="nextBtn"
+          class="carousel-arrow"
+          aria-label="Next trainer"
+        >
+          &#8250;
+        </button>
+
+      </div>
+
     </div>
+
+
+    <div
+      id="carouselDots"
+      class="carousel-dots"
+    ></div>
+
+
+    <div class="carousel-timer">
+
+      <div
+        id="timerBar"
+        class="carousel-timer-bar"
+      ></div>
+
+    </div>
+
   </div>
 
-  <script src="assets/config.js"></script>
-  <script src="assets/app.js"></script>
-  <script>
-    let SELECTED_TRAINER = null;
+</main>
 
-    function openModal(id) { document.getElementById(id).classList.add('show'); }
-    function closeModal(id) { document.getElementById(id).classList.remove('show'); }
 
-    function escapeHtml(value) {
-      return String(value ?? '')
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#039;');
+<!-- ===================================================
+     CLOSING
+=================================================== -->
+
+<section class="closing-section">
+
+  <h2>
+    Your target band starts with the right guidance.
+  </h2>
+
+  <p>
+    Choose a trainer who matches your learning needs
+    and tell us what you are looking for.
+  </p>
+
+</section>
+
+
+<!-- ===================================================
+     FLOATING WHATSAPP
+=================================================== -->
+
+<a
+  id="floatingWhatsapp"
+  class="whatsapp-float"
+  href="#"
+  target="_blank"
+  rel="noopener noreferrer"
+  aria-label="Contact BUYE-Online on WhatsApp"
+>
+  ☎
+</a>
+
+
+<!-- ===================================================
+     REQUIREMENT MODAL
+=================================================== -->
+
+<div
+  id="requirementModal"
+  class="modal-backdrop"
+>
+
+  <div class="requirement-modal">
+
+    <div class="modal-header">
+
+      <div>
+
+        <h2>
+          Tell us what you need
+        </h2>
+
+        <p>
+          Share your requirement and the
+          BUYE-Online team will contact you.
+        </p>
+
+      </div>
+
+
+      <button
+        type="button"
+        id="closeModalBtn"
+        class="modal-close"
+        aria-label="Close"
+      >
+        ×
+      </button>
+
+    </div>
+
+
+    <form id="requirementForm">
+
+
+      <div class="form-group">
+
+        <label for="leadName">
+          Your Name *
+        </label>
+
+        <input
+          id="leadName"
+          required
+          autocomplete="name"
+          placeholder="Enter your name"
+        >
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label for="leadPhone">
+          WhatsApp / Phone *
+        </label>
+
+        <input
+          id="leadPhone"
+          required
+          autocomplete="tel"
+          placeholder="Enter your phone number"
+        >
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label for="leadEmail">
+          Email
+        </label>
+
+        <input
+          id="leadEmail"
+          type="email"
+          autocomplete="email"
+          placeholder="Enter your email"
+        >
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label for="leadModule">
+          IELTS Module
+        </label>
+
+        <select id="leadModule">
+
+          <option value="">
+            Select module
+          </option>
+
+          <option value="Speaking">
+            Speaking
+          </option>
+
+          <option value="Listening">
+            Listening
+          </option>
+
+          <option value="Reading">
+            Reading
+          </option>
+
+          <option value="Writing">
+            Writing
+          </option>
+
+          <option value="ALL">
+            Complete IELTS
+          </option>
+
+        </select>
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label for="leadRequirement">
+          What are you looking for?
+        </label>
+
+        <textarea
+          id="leadRequirement"
+          placeholder="Tell us briefly about your IELTS requirement..."
+        ></textarea>
+
+      </div>
+
+
+      <button
+        type="submit"
+        id="submitRequirementBtn"
+        class="submit-requirement"
+      >
+        Send Requirement
+      </button>
+
+
+      <div
+        id="formStatus"
+        class="form-status"
+      ></div>
+
+    </form>
+
+  </div>
+
+</div>
+
+
+<script src="assets/config.js"></script>
+<script src="assets/app.js"></script>
+
+
+<script>
+
+/* =====================================================
+   STATE
+===================================================== */
+
+let trainers = [];
+
+let currentIndex = 0;
+
+let autoplayTimer = null;
+
+let isPaused = false;
+
+let selectedTrainerId = '';
+
+let selectedTrainerName = '';
+
+const AUTOPLAY_SECONDS = 10;
+
+
+/* =====================================================
+   ELEMENTS
+===================================================== */
+
+const track =
+  document.getElementById(
+    'carouselTrack'
+  );
+
+const container =
+  document.getElementById(
+    'carouselContainer'
+  );
+
+const loading =
+  document.getElementById(
+    'loading'
+  );
+
+const emptyState =
+  document.getElementById(
+    'emptyState'
+  );
+
+const dots =
+  document.getElementById(
+    'carouselDots'
+  );
+
+const timerBar =
+  document.getElementById(
+    'timerBar'
+  );
+
+
+/* =====================================================
+   SECURITY HELPERS
+===================================================== */
+
+function escapeHtml(value) {
+
+  return String(value ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+
+}
+
+
+function safeUrl(value) {
+
+  try {
+
+    const url =
+      new URL(
+        String(value || ''),
+        window.location.href
+      );
+
+    return url.protocol === 'https:'
+      ? url.href
+      : '';
+
+  } catch {
+
+    return '';
+
+  }
+
+}
+
+
+function getInitials(name) {
+
+  const words =
+    String(name || 'Trainer')
+      .trim()
+      .split(/\s+/)
+      .filter(Boolean);
+
+  return words
+    .slice(0, 2)
+    .map(
+      word =>
+        word.charAt(0).toUpperCase()
+    )
+    .join('') || 'T';
+
+}
+
+
+/* =====================================================
+   LOAD TRAINERS
+===================================================== */
+
+async function loadTrainers() {
+
+  try {
+
+    const result =
+      await api(
+        'getPublicTrainers',
+        {}
+      );
+
+
+    if (
+      !result ||
+      !result.success ||
+      !Array.isArray(result.trainers)
+    ) {
+
+      throw new Error(
+        result?.message ||
+        'Unable to load trainers.'
+      );
+
     }
-    function safeUrl(value) {
-      try {
-        const url = new URL(String(value || ''), window.location.href);
-        return url.protocol === 'https:' ? url.href : '';
-      } catch (e) {
-        return '';
-      }
+
+
+    trainers =
+      result.trainers.filter(
+        trainer =>
+          trainer &&
+          trainer.userId &&
+          trainer.name
+      );
+
+
+    loading.style.display =
+      'none';
+
+
+    if (!trainers.length) {
+
+      emptyState.style.display =
+        'block';
+
+      return;
+
     }
 
-    function renderTrainer(t) {
-      const name = escapeHtml(t.name || 'IELTS Trainer');
-      const module = escapeHtml(t.module || '');
-      const years = t.yearsExperience ? escapeHtml(t.yearsExperience) + ' yrs experience' : '';
-      const bio = escapeHtml(t.bio || 'IELTS trainer at BUYE-Online, focused on helping students hit their target band score.');
 
-      const safePhotoUrl = safeUrl(t.photoUrl);
-      const photo = safePhotoUrl
-        ? escapeHtml(safePhotoUrl)
-        : 'https://via.placeholder.com/400x300/2F5FCB/FFFFFF?text=' + encodeURIComponent(t.name || 'Trainer');
+    container.style.display =
+      'block';
 
-      const safeVideoUrl = safeUrl(t.introVideoUrl);
-      const video = safeVideoUrl
-        ? '<div class="trainer-video-wrap"><iframe src="' + escapeHtml(safeVideoUrl) + '" allow="autoplay"></iframe></div>'
-        : '';
 
-      const trainerId = encodeURIComponent(t.userId || '');
-      const trainerName = encodeURIComponent(t.name || 'IELTS Trainer');
+    renderCarousel();
 
-      return '<div class="trainer-card">' +
-        '<img class="trainer-photo" src="' + photo + '" alt="' + name + '" />' +
-        '<div class="trainer-body">' +
-          '<div class="trainer-name">' + name + '</div>' +
-          '<div class="trainer-meta">' + module + (years ? ' • ' + years : '') + '</div>' +
-          video +
-          '<div class="trainer-bio">' + bio + '</div>' +
-          '<div class="connect-row">' +
-            '<button class="btn green small" style="flex:1;" onclick="openRequirementForm(decodeURIComponent(\'' + trainerId + '\'),decodeURIComponent(\'' + trainerName + '\'))">Connect</button>' +
-            '<a class="btn ghost small" style="flex:1;text-align:center;" target="_blank" rel="noopener noreferrer" href="https://wa.me/' + WHATSAPP_NUMBER + '?text=' + encodeURIComponent('Hi, I saw ' + (t.name || 'this trainer') + '\\'s profile on BUYE-Online and want to know more.') + '">WhatsApp Direct</a>' +
-          '</div>' +
-        '</div>' +
-      '</div>';
-    }
-    async function loadTrainers() {
-      try {
-        const data = await api('getPublicTrainers', {});
-        const grid = document.getElementById('trainerGrid');
-        if (!data.trainers.length) { grid.innerHTML = '<p style="grid-column:1/-1;text-align:center;color:#6b6680;">No trainers published yet — check back soon.</p>'; return; }
-        grid.innerHTML = data.trainers.map(renderTrainer).join('');
-      } catch (e) {
-        document.getElementById('trainerGrid').innerHTML = '<p style="grid-column:1/-1;text-align:center;color:#6b6680;">' + escapeHtml(e.message || 'Unable to load trainers.') + '</p>';
-      }
-    }
+    updateCarousel();
 
-    function openRequirementForm(trainerId, trainerName) {
-      SELECTED_TRAINER = trainerId;
-      document.getElementById('reqTrainerId').value = trainerId;
-      document.getElementById('reqModalTitle').textContent = 'Connect with ' + trainerName;
-      openModal('reqModal');
-    }
+    startAutoplay();
 
-    document.getElementById('reqForm').addEventListener('submit', async function (e) {
-      e.preventDefault();
 
-      const name = document.getElementById('reqName').value.trim();
-      const phone = document.getElementById('reqPhone').value.trim();
-      const email = document.getElementById('reqEmail').value.trim();
-      const module = document.getElementById('reqModule').value;
-      const requirement = document.getElementById('reqRequirement').value.trim();
+  } catch (error) {
 
-      try {
-        // 1. Save as a proper lead in the backend, pre-assigned to the selected trainer.
-        await api('submitPublicLead', {
-          trainerId: document.getElementById('reqTrainerId').value,
-          name: name,
-          phone: phone,
-          email: email,
-          module: module,
-          requirement: requirement
-        });
+    console.error(
+      'Trainer loading failed:',
+      error
+    );
 
-        // 2. Open WhatsApp with the same details pre-filled.
-        const waText = 'New IELTS enquiry from BUYE-Online website:\n' +
-          'Name: ' + name + '\nPhone: ' + phone + (email ? '\nEmail: ' + email : '') +
-          '\nModule: ' + module + '\nRequirement: ' + (requirement || '-');
+    loading.style.display =
+      'none';
 
-        window.open(
-          'https://wa.me/' + WHATSAPP_NUMBER + '?text=' + encodeURIComponent(waText),
-          '_blank'
+    emptyState.style.display =
+      'block';
+
+  }
+
+}
+
+
+/* =====================================================
+   RENDER TRAINERS
+===================================================== */
+
+function renderCarousel() {
+
+  track.innerHTML = '';
+
+  dots.innerHTML = '';
+
+
+  trainers.forEach(
+    function(trainer, index) {
+
+      const slide =
+        document.createElement(
+          'article'
         );
 
-        toast('Thanks! Opening WhatsApp to confirm your request...', 'success');
-        closeModal('reqModal');
-        e.target.reset();
-      } catch (err) {
-        toast(err.message, 'error');
+      slide.className =
+        'trainer-slide';
+
+      slide.dataset.index =
+        String(index);
+
+
+      const photoUrl =
+        safeUrl(
+          trainer.photoUrl
+        );
+
+
+      let media = '';
+
+
+      if (photoUrl) {
+
+        media = `
+
+          <img
+            class="trainer-photo"
+            src="${escapeHtml(photoUrl)}"
+            alt="${escapeHtml(trainer.name)}"
+            loading="${index === 0 ? 'eager' : 'lazy'}"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"
+          >
+
+          <div
+            class="photo-fallback"
+            style="display:none;"
+          >
+            ${escapeHtml(
+              getInitials(
+                trainer.name
+              )
+            )}
+          </div>
+
+        `;
+
+      } else {
+
+        media = `
+
+          <div class="photo-fallback">
+            ${escapeHtml(
+              getInitials(
+                trainer.name
+              )
+            )}
+          </div>
+
+        `;
+
       }
-    });
-    loadTrainers();
-  </script>
+
+
+      const module =
+        trainer.module ||
+        'IELTS';
+
+
+      const experience =
+        trainer.yearsExperience
+          ? escapeHtml(
+              trainer.yearsExperience
+            ) + ' Years Experience'
+          : 'IELTS Certified Trainer';
+
+
+      const bio =
+        trainer.bio
+          ? escapeHtml(
+              trainer.bio
+            )
+          : 'Focused on helping learners build confidence, improve their skills and achieve their IELTS target score.';
+
+
+      slide.innerHTML = `
+
+        <div class="trainer-card">
+
+
+          <!-- PHOTO -->
+
+          <div class="trainer-media">
+
+            ${
+              index === 0
+                ? `
+                  <div class="featured-label">
+                    ★ Featured Trainer
+                  </div>
+                `
+                : ''
+            }
+
+            ${media}
+
+
+            <div class="module-badge">
+              ${escapeHtml(module)}
+            </div>
+
+          </div>
+
+
+          <!-- DETAILS -->
+
+          <div class="trainer-content">
+
+
+            <div class="mini-brand">
+              LEARN • GROW • EXCEL
+            </div>
+
+
+            <h2 class="trainer-name">
+              ${escapeHtml(
+                trainer.name
+              )}
+            </h2>
+
+
+            <div class="trainer-role">
+              IELTS ${escapeHtml(module)} Trainer
+            </div>
+
+
+            <div class="trainer-meta">
+
+              <span class="meta-pill">
+                ${experience}
+              </span>
+
+              <span class="meta-pill">
+                BUYE-Online
+              </span>
+
+            </div>
+
+
+            <div class="trainer-bio">
+              ${bio}
+            </div>
+
+
+            <!-- EXPERTISE -->
+
+            <div class="expertise-grid">
+
+              <div class="expertise-item">
+
+                <div class="expertise-icon">
+                  👥
+                </div>
+
+                <div class="expertise-label">
+                  Build<br>Confidence
+                </div>
+
+              </div>
+
+
+              <div class="expertise-item">
+
+                <div class="expertise-icon">
+                  📊
+                </div>
+
+                <div class="expertise-label">
+                  Improve<br>Skills
+                </div>
+
+              </div>
+
+
+              <div class="expertise-item">
+
+                <div class="expertise-icon">
+                  🎯
+                </div>
+
+                <div class="expertise-label">
+                  Achieve<br>Target
+                </div>
+
+              </div>
+
+
+              <div class="expertise-item">
+
+                <div class="expertise-icon">
+                  💡
+                </div>
+
+                <div class="expertise-label">
+                  Practical<br>Guidance
+                </div>
+
+              </div>
+
+            </div>
+
+
+            <!-- ACTIONS -->
+
+            <div class="trainer-actions">
+
+              <button
+                type="button"
+                class="trainer-btn btn-connect"
+                data-connect="${escapeHtml(
+                  trainer.userId
+                )}"
+                data-name="${escapeHtml(
+                  trainer.name
+                )}"
+              >
+                🔗 Connect
+              </button>
+
+
+              <a
+                class="trainer-btn btn-whatsapp"
+                target="_blank"
+                rel="noopener noreferrer"
+                href="${getWhatsappUrl(
+                  trainer.name
+                )}"
+              >
+                ☎ WhatsApp Direct
+              </a>
+
+            </div>
+
+
+            <div class="trainer-footer">
+
+              “Empowering minds. Building skills.
+              Inspiring excellence.”
+
+            </div>
+
+          </div>
+
+        </div>
+
+      `;
+
+
+      track.appendChild(
+        slide
+      );
+
+
+      const dot =
+        document.createElement(
+          'button'
+        );
+
+      dot.type = 'button';
+
+      dot.className =
+        'carousel-dot';
+
+      dot.setAttribute(
+        'aria-label',
+        'Show trainer ' +
+        (index + 1)
+      );
+
+      dot.addEventListener(
+        'click',
+        function() {
+
+          goTo(index);
+
+        }
+      );
+
+      dots.appendChild(
+        dot
+      );
+
+    }
+  );
+
+
+  document
+    .querySelectorAll(
+      '[data-connect]'
+    )
+    .forEach(
+      function(button) {
+
+        button.addEventListener(
+          'click',
+          function() {
+
+            openRequirementForm(
+              this.dataset.connect,
+              this.dataset.name
+            );
+
+          }
+        );
+
+      }
+    );
+
+}
+
+
+/* =====================================================
+   WHATSAPP
+===================================================== */
+
+function getWhatsappUrl(
+  trainerName
+) {
+
+  const number =
+    typeof WHATSAPP_NUMBER !==
+    'undefined'
+      ? WHATSAPP_NUMBER
+      : '919995863184';
+
+
+  const message =
+    'Hi, I saw the profile of ' +
+    (trainerName || 'this trainer') +
+    ' on BUYE-Online and want to know more.';
+
+
+  return (
+    'https://wa.me/' +
+    number +
+    '?text=' +
+    encodeURIComponent(
+      message
+    )
+  );
+
+}
+
+
+/* =====================================================
+   CAROUSEL POSITION
+===================================================== */
+
+function updateCarousel() {
+
+  const slides =
+    Array.from(
+      track.children
+    );
+
+
+  if (!slides.length) {
+    return;
+  }
+
+
+  slides.forEach(
+    function(slide, index) {
+
+      slide.classList.toggle(
+        'is-active',
+        index === currentIndex
+      );
+
+    }
+  );
+
+
+  track.style.transform =
+    'translateX(-' +
+    (
+      currentIndex * 100
+    ) +
+    '%)';
+
+
+  Array.from(
+    dots.children
+  ).forEach(
+    function(dot, index) {
+
+      dot.classList.toggle(
+        'active',
+        index === currentIndex
+      );
+
+    }
+  );
+
+}
+
+
+/* =====================================================
+   NAVIGATION
+===================================================== */
+
+function nextTrainer() {
+
+  if (!trainers.length) {
+    return;
+  }
+
+  currentIndex =
+    (
+      currentIndex + 1
+    ) %
+    trainers.length;
+
+  updateCarousel();
+
+  restartTimer();
+
+}
+
+
+function previousTrainer() {
+
+  if (!trainers.length) {
+    return;
+  }
+
+  currentIndex =
+    (
+      currentIndex -
+      1 +
+      trainers.length
+    ) %
+    trainers.length;
+
+  updateCarousel();
+
+  restartTimer();
+
+}
+
+
+function goTo(index) {
+
+  if (
+    index < 0 ||
+    index >= trainers.length
+  ) {
+
+    return;
+
+  }
+
+  currentIndex = index;
+
+  updateCarousel();
+
+  restartTimer();
+
+}
+
+
+/* =====================================================
+   AUTOPLAY
+===================================================== */
+
+function startAutoplay() {
+
+  stopAutoplay();
+
+
+  autoplayTimer =
+    setInterval(
+      function() {
+
+        if (!isPaused) {
+
+          nextTrainer();
+
+        }
+
+      },
+      AUTOPLAY_SECONDS * 1000
+    );
+
+
+  restartTimerBar();
+
+}
+
+
+function stopAutoplay() {
+
+  if (autoplayTimer) {
+
+    clearInterval(
+      autoplayTimer
+    );
+
+    autoplayTimer = null;
+
+  }
+
+}
+
+
+function restartTimer() {
+
+  restartTimerBar();
+
+}
+
+
+function restartTimerBar() {
+
+  timerBar.classList.remove(
+    'running'
+  );
+
+
+  void timerBar.offsetWidth;
+
+
+  if (!isPaused) {
+
+    timerBar.classList.add(
+      'running'
+    );
+
+  }
+
+}
+
+
+/* =====================================================
+   PAUSE ON HOVER
+===================================================== */
+
+const showcase =
+  document.getElementById(
+    'trainerShowcase'
+  );
+
+
+showcase.addEventListener(
+  'mouseenter',
+  function() {
+
+    isPaused = true;
+
+    timerBar.classList.remove(
+      'running'
+    );
+
+  }
+);
+
+
+showcase.addEventListener(
+  'mouseleave',
+  function() {
+
+    isPaused = false;
+
+    restartTimerBar();
+
+  }
+);
+
+
+/* =====================================================
+   ARROWS
+===================================================== */
+
+document
+  .getElementById('nextBtn')
+  .addEventListener(
+    'click',
+    nextTrainer
+  );
+
+
+document
+  .getElementById('prevBtn')
+  .addEventListener(
+    'click',
+    previousTrainer
+  );
+
+
+/* =====================================================
+   KEYBOARD
+===================================================== */
+
+document.addEventListener(
+  'keydown',
+  function(event) {
+
+    if (
+      event.key ===
+      'ArrowRight'
+    ) {
+
+      nextTrainer();
+
+    }
+
+    if (
+      event.key ===
+      'ArrowLeft'
+    ) {
+
+      previousTrainer();
+
+    }
+
+    if (
+      event.key ===
+      'Escape'
+    ) {
+
+      closeRequirementForm();
+
+    }
+
+  }
+);
+
+
+/* =====================================================
+   TOUCH SWIPE
+===================================================== */
+
+let touchStartX = 0;
+
+let touchEndX = 0;
+
+
+showcase.addEventListener(
+  'touchstart',
+  function(event) {
+
+    touchStartX =
+      event.changedTouches[0]
+        .screenX;
+
+  },
+  { passive: true }
+);
+
+
+showcase.addEventListener(
+  'touchend',
+  function(event) {
+
+    touchEndX =
+      event.changedTouches[0]
+        .screenX;
+
+
+    const distance =
+      touchEndX -
+      touchStartX;
+
+
+    if (
+      Math.abs(distance) <
+      50
+    ) {
+
+      return;
+
+    }
+
+
+    if (distance < 0) {
+
+      nextTrainer();
+
+    } else {
+
+      previousTrainer();
+
+    }
+
+  },
+  { passive: true }
+);
+
+
+/* =====================================================
+   REQUIREMENT FORM
+===================================================== */
+
+function openRequirementForm(
+  trainerId,
+  trainerName
+) {
+
+  selectedTrainerId =
+    trainerId || '';
+
+  selectedTrainerName =
+    trainerName || '';
+
+
+  document
+    .getElementById(
+      'requirementModal'
+    )
+    .classList.add(
+      'open'
+    );
+
+
+  document
+    .getElementById(
+      'formStatus'
+    )
+    .textContent = '';
+
+
+  document
+    .getElementById(
+      'leadName'
+    )
+    .focus();
+
+}
+
+
+function closeRequirementForm() {
+
+  document
+    .getElementById(
+      'requirementModal'
+    )
+    .classList.remove(
+      'open'
+    );
+
+}
+
+
+document
+  .getElementById(
+    'closeModalBtn'
+  )
+  .addEventListener(
+    'click',
+    closeRequirementForm
+  );
+
+
+document
+  .getElementById(
+    'requirementModal'
+  )
+  .addEventListener(
+    'click',
+    function(event) {
+
+      if (
+        event.target === this
+      ) {
+
+        closeRequirementForm();
+
+      }
+
+    }
+  );
+
+
+/* =====================================================
+   SUBMIT LEAD
+===================================================== */
+
+document
+  .getElementById(
+    'requirementForm'
+  )
+  .addEventListener(
+    'submit',
+    async function(event) {
+
+      event.preventDefault();
+
+
+      const name =
+        document
+          .getElementById(
+            'leadName'
+          )
+          .value
+          .trim();
+
+
+      const phone =
+        document
+          .getElementById(
+            'leadPhone'
+          )
+          .value
+          .trim();
+
+
+      const email =
+        document
+          .getElementById(
+            'leadEmail'
+          )
+          .value
+          .trim();
+
+
+      const module =
+        document
+          .getElementById(
+            'leadModule'
+          )
+          .value;
+
+
+      const requirement =
+        document
+          .getElementById(
+            'leadRequirement'
+          )
+          .value
+          .trim();
+
+
+      const button =
+        document
+          .getElementById(
+            'submitRequirementBtn'
+          );
+
+
+      const status =
+        document
+          .getElementById(
+            'formStatus'
+          );
+
+
+      if (
+        !name ||
+        !phone
+      ) {
+
+        status.textContent =
+          'Please enter your name and phone number.';
+
+        status.style.color =
+          '#c62828';
+
+        return;
+
+      }
+
+
+      button.disabled =
+        true;
+
+      button.textContent =
+        'Sending...';
+
+
+      status.textContent =
+        'Submitting your requirement...';
+
+      status.style.color =
+        '#555970';
+
+
+      try {
+
+        const result =
+          await api(
+            'submitPublicLead',
+            {
+              name,
+              phone,
+              email,
+              module,
+              trainerId:
+                selectedTrainerId,
+              requirement
+            }
+          );
+
+
+        if (
+          !result ||
+          !result.success
+        ) {
+
+          throw new Error(
+            result?.message ||
+            'Unable to submit your requirement.'
+          );
+
+        }
+
+
+        status.textContent =
+          'Thank you! Your requirement has been received.';
+
+        status.style.color =
+          '#16803c';
+
+
+        /*
+        Central BUYE-Online WhatsApp.
+        */
+
+        const number =
+          typeof WHATSAPP_NUMBER !==
+          'undefined'
+            ? WHATSAPP_NUMBER
+            : '919995863184';
+
+
+        const message =
+          'Hi BUYE-Online, I just submitted an IELTS enquiry. ' +
+          'My name is ' +
+          name +
+          '.';
+
+
+        setTimeout(
+          function() {
+
+            window.open(
+              'https://wa.me/' +
+              number +
+              '?text=' +
+              encodeURIComponent(
+                message
+              ),
+              '_blank'
+            );
+
+          },
+          300
+        );
+
+
+        document
+          .getElementById(
+            'requirementForm'
+          )
+          .reset();
+
+
+        setTimeout(
+          closeRequirementForm,
+          1400
+        );
+
+
+      } catch (error) {
+
+        console.error(
+          error
+        );
+
+
+        status.textContent =
+          error.message ||
+          'Unable to submit your requirement.';
+
+        status.style.color =
+          '#c62828';
+
+
+      } finally {
+
+        button.disabled =
+          false;
+
+        button.textContent =
+          'Send Requirement';
+
+      }
+
+    }
+  );
+
+
+/* =====================================================
+   FLOATING WHATSAPP
+===================================================== */
+
+const centralNumber =
+  typeof WHATSAPP_NUMBER !==
+  'undefined'
+    ? WHATSAPP_NUMBER
+    : '919995863184';
+
+
+document
+  .getElementById(
+    'floatingWhatsapp'
+  )
+  .href =
+    'https://wa.me/' +
+    centralNumber +
+    '?text=' +
+    encodeURIComponent(
+      'Hi BUYE-Online, I would like to know more about your IELTS training.'
+    );
+
+
+/* =====================================================
+   START
+===================================================== */
+
+loadTrainers();
+
+</script>
+
 </body>
 </html>
