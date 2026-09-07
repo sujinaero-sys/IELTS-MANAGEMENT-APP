@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Meet Our Trainers — BUYE-Online</title>
+<link rel="stylesheet" href="assets/style.css" />
+<style>
+  .hero { text-align: center; padding: 40px 20px 10px; }
+  .hero h1 { font-size: 30px; margin-bottom: 6px; }
+  .hero p { color: #6b6680; font-size: 15px; }
+  .trainer-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 22px;
+    padding: 24px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .trainer-card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  .trainer-photo {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    background: linear-gradient(135deg, var(--blue), var(--purple));
+  }
+  .trainer-body { padding: 16px 18px 20px; flex: 1; display: flex; flex-direction: column; }
+  .trainer-name { font-size: 18px; font-weight: 800; margin: 0 0 2px; }
+  .trainer-meta { font-size: 13px; color: #6b6680; margin-bottom: 10px; }
+  .trainer-bio { font-size: 13.5px; color: #333; flex: 1; margin-bottom: 12px; }
+  .trainer-video-wrap { margin-bottom: 12px; }
+  .trainer-video-wrap iframe { width: 100%; height: 180px; border: none; border-radius: 10px; }
+  .connect-row { display: flex; gap: 8px; }
+  .connect-row .btn { margin-top: 0; }
+</style>
+</head>
+<body>
+  <div class="topbar">
+    <div><div class="brand">BUYE-Online</div><div class="tagline">Meet Our IELTS Trainers</div></div>
+    <div><a href="index.html" style="color:#fff;font-size:13px;">Trainer / Admin Login →</a></div>
+  </div>
+
+  <div class="hero">
+    <h1>Learn from trainers who've walked the exam path</h1>
+    <p>Pick a trainer, watch their 1-minute intro, and tell us what you need — we'll reach out on WhatsApp right away.</p>
+  </div>
+
+  <div class="trainer-grid" id="trainerGrid">
+    <p style="grid-column:1/-1;text-align:center;color:#6b6680;">Loading trainers...</p>
+  </div>
+
+  <!-- Requirement form modal -->
+  <div class="modal-overlay" id="reqModal">
+    <div class="modal-box">
+      <h3 id="reqModalTitle">Tell us what you need</h3>
+      <form id="reqForm">
+        <input type="hidden" id="reqTrainerId" />
+        <label>Your Name</label>
+        <input type="text" id="reqName" required />
+        <label>Phone (WhatsApp number)</label>
+        <input type="tel" id="reqPhone" required placeholder="+91XXXXXXXXXX" />
+        <label>Email (optional)</label>
+        <input type="email" id="reqEmail" />
+        <label>Module you need help with</label>
+        <select id="reqModule">
+          <option>Speaking</option><option>Listening</option><option>Reading</option><option>Writing</option><option>All 4 modules</option>
+        </select>
+        <label>Your requirement</label>
+        <textarea id="reqRequirement" rows="3" placeholder="e.g. Target band 7, exam on 20th Oct, need weekend classes"></textarea>
+        <button class="btn green" type="submit">Send Requirement</button>
+        <button type="button" class="btn ghost" style="margin-top:8px;" onclick="closeModal('reqModal')">Cancel</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="assets/config.js"></script>
+  <script src="assets/app.js"></script>
+  <script>
+    let SELECTED_TRAINER = null;
+
+    function openModal(id) { document.getElementById(id).classList.add('show'); }
+    function closeModal(id) { document.getElementById(id).classList.remove('show'); }
+
+    function escapeHtml(value) {
+      return String(value ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+    function safeUrl(value) {
+      try {
+        const url = new URL(String(value || ''), window.location.href);
+        return url.protocol === 'https:' ? url.href : '';
+      } catch (e) {
+        return '';
+      }
+    }
+
+    function renderTrainer(t) {
+      const name = escapeHtml(t.name || 'IELTS Trainer');
+      const module = escapeHtml(t.module || '');
+      const years = t.yearsExperience ? escapeHtml(t.yearsExperience) + ' yrs experience' : '';
+      const bio = escapeHtml(t.bio || 'IELTS trainer at BUYE-Online, focused on helping students hit their target band score.');
+
+      const safePhotoUrl = safeUrl(t.photoUrl);
+      const photo = safePhotoUrl
+        ? escapeHtml(safePhotoUrl)
+        : 'https://via.placeholder.com/400x300/2F5FCB/FFFFFF?text=' + encodeURIComponent(t.name || 'Trainer');
+
+      const safeVideoUrl = safeUrl(t.introVideoUrl);
+      const video = safeVideoUrl
+        ? '<div class="trainer-video-wrap"><iframe src="' + escapeHtml(safeVideoUrl) + '" allow="autoplay"></iframe></div>'
+        : '';
+
+      const trainerId = encodeURIComponent(t.userId || '');
+      const trainerName = encodeURIComponent(t.name || 'IELTS Trainer');
+
+      return '<div class="trainer-card">' +
+        '<img class="trainer-photo" src="' + photo + '" alt="' + name + '" />' +
+        '<div class="trainer-body">' +
+          '<div class="trainer-name">' + name + '</div>' +
+          '<div class="trainer-meta">' + module + (years ? ' • ' + years : '') + '</div>' +
+          video +
+          '<div class="trainer-bio">' + bio + '</div>' +
+          '<div class="connect-row">' +
+            '<button class="btn green small" style="flex:1;" onclick="openRequirementForm(decodeURIComponent(\'' + trainerId + '\'),decodeURIComponent(\'' + trainerName + '\'))">Connect</button>' +
+            '<a class="btn ghost small" style="flex:1;text-align:center;" target="_blank" rel="noopener noreferrer" href="https://wa.me/' + WHATSAPP_NUMBER + '?text=' + encodeURIComponent('Hi, I saw ' + (t.name || 'this trainer') + '\\'s profile on BUYE-Online and want to know more.') + '">WhatsApp Direct</a>' +
+          '</div>' +
+        '</div>' +
+      '</div>';
+    }
+    async function loadTrainers() {
+      try {
+        const data = await api('getPublicTrainers', {});
+        const grid = document.getElementById('trainerGrid');
+        if (!data.trainers.length) { grid.innerHTML = '<p style="grid-column:1/-1;text-align:center;color:#6b6680;">No trainers published yet — check back soon.</p>'; return; }
+        grid.innerHTML = data.trainers.map(renderTrainer).join('');
+      } catch (e) {
+        document.getElementById('trainerGrid').innerHTML = '<p style="grid-column:1/-1;text-align:center;color:#6b6680;">' + escapeHtml(e.message || 'Unable to load trainers.') + '</p>';
+      }
+    }
+
+    function openRequirementForm(trainerId, trainerName) {
+      SELECTED_TRAINER = trainerId;
+      document.getElementById('reqTrainerId').value = trainerId;
+      document.getElementById('reqModalTitle').textContent = 'Connect with ' + trainerName;
+      openModal('reqModal');
+    }
+
+    document.getElementById('reqForm').addEventListener('submit', async function (e) {
+      e.preventDefault();
+
+      const name = document.getElementById('reqName').value.trim();
+      const phone = document.getElementById('reqPhone').value.trim();
+      const email = document.getElementById('reqEmail').value.trim();
+      const module = document.getElementById('reqModule').value;
+      const requirement = document.getElementById('reqRequirement').value.trim();
+
+      try {
+        // 1. Save as a proper lead in the backend, pre-assigned to the selected trainer.
+        await api('submitPublicLead', {
+          trainerId: document.getElementById('reqTrainerId').value,
+          name: name,
+          phone: phone,
+          email: email,
+          module: module,
+          requirement: requirement
+        });
+
+        // 2. Open WhatsApp with the same details pre-filled.
+        const waText = 'New IELTS enquiry from BUYE-Online website:\n' +
+          'Name: ' + name + '\nPhone: ' + phone + (email ? '\nEmail: ' + email : '') +
+          '\nModule: ' + module + '\nRequirement: ' + (requirement || '-');
+
+        window.open(
+          'https://wa.me/' + WHATSAPP_NUMBER + '?text=' + encodeURIComponent(waText),
+          '_blank'
+        );
+
+        toast('Thanks! Opening WhatsApp to confirm your request...', 'success');
+        closeModal('reqModal');
+        e.target.reset();
+      } catch (err) {
+        toast(err.message, 'error');
+      }
+    });
+    loadTrainers();
+  </script>
+</body>
+</html>
