@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Trainer Dashboard — BUYE-Online</title>
+<link rel="stylesheet" href="assets/style.css" />
+</head>
+<body>
+  <div class="topbar">
+    <div><div class="brand">BUYE-Online</div><div class="tagline">Trainer Dashboard</div></div>
+    <div>
+      <span id="trainerName" style="margin-right:14px;"></span>
+      <button class="btn small ghost" style="color:#fff;border-color:#444" onclick="logout()">Logout</button>
+    </div>
+  </div>
+
+  <div class="main" style="padding:24px;">
+    <div class="stats-grid" id="profileCard"></div>
+
+    <div class="panel-head" style="margin-top:24px;"><h2>My Assigned Leads / Students</h2></div>
+    <table>
+      <thead><tr><th>Name</th><th>Phone</th><th>Module</th><th>Status</th><th>Update</th></tr></thead>
+      <tbody id="leadsTable"></tbody>
+    </table>
+
+    <div class="panel-head" style="margin-top:24px;"><h2>My Work Allocation</h2></div>
+    <table>
+      <thead><tr><th>Module</th><th>Class Date</th><th>Status</th><th>Remarks</th><th>Action</th></tr></thead>
+      <tbody id="workTable"></tbody>
+    </table>
+
+    <div class="panel-head" style="margin-top:24px;"><h2>My Live Class-Log Sheet</h2></div>
+    <p style="font-size:14px;color:#6b6680;">Record every session here. Admin sees this instantly on their dashboard.</p>
+    <div id="sheetLinkWrap"></div>
+  </div>
+
+  <!-- MODAL: update lead status -->
+  <div class="modal-overlay" id="leadUpdateModal">
+    <div class="modal-box">
+      <h3>Update Lead</h3>
+      <form id="leadUpdateForm">
+        <input type="hidden" id="upLeadId" />
+        <label>Status</label>
+        <select id="upStatus"><option value="assigned">Assigned</option><option value="in-progress">In Progress</option><option value="converted">Converted</option><option value="lost">Lost</option></select>
+        <label>Notes</label>
+        <textarea id="upNotes"></textarea>
+        <button class="btn green" type="submit">Save</button>
+        <button type="button" class="btn ghost" style="margin-top:8px;" onclick="closeModal('leadUpdateModal')">Cancel</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="assets/config.js"></script>
+  <script src="assets/app.js"></script>
+  <script>
+    function openModal(id) { document.getElementById(id).classList.add('show'); }
+    function closeModal(id) { document.getElementById(id).classList.remove('show'); }
+    function badge(status) { return '<span class="badge ' + (status || '').toLowerCase() + '">' + status + '</span>'; }
+
+    async function loadLeads() {
+      const data = await api('getLeads', {});
+      document.getElementById('leadsTable').innerHTML = data.leads.map(function (l) {
+        return '<tr><td>' + l.Name + '</td><td>' + l.Phone + '</td><td>' + l.Module + '</td><td>' + badge(l.Status) + '</td>' +
+          '<td><button class="btn small purple" onclick="openLeadUpdate(\'' + l.LeadID + '\',\'' + l.Status + '\')">Update</button></td></tr>';
+      }).join('') || '<tr><td colspan="5">No leads assigned yet.</td></tr>';
+    }
+
+    async function loadWork() {
+      const data = await api('getWorkAllocations', {});
+      document.getElementById('workTable').innerHTML = data.workAllocations.map(function (w) {
+        return '<tr><td>' + w.Module + '</td><td>' + (w.ClassDate || '—') + '</td><td>' + badge(w.Status) + '</td><td>' + (w.Remarks || '') + '</td>' +
+          '<td><button class="btn small green" onclick="markDone(\'' + w.AllocationID + '\')">Mark Completed</button></td></tr>';
+      }).join('') || '<tr><td colspan="5">No work allocated yet.</td></tr>';
+    }
+
+    async function markDone(id) {
+      try { await api('updateWorkAllocation', { allocationId: id, Status: 'completed' }); toast('Marked completed.', 'success'); loadWork(); }
+      catch (e) { toast(e.message, 'error'); }
+    }
+
+    function openLeadUpdate(id, status) {
+      document.getElementById('upLeadId').value = id;
+      document.getElementById('upStatus').value = status || 'assigned';
+      openModal('leadUpdateModal');
+    }
+
+    document.getElementById('leadUpdateForm').addEventListener('submit', async function (e) {
+      e.preventDefault();
+      try {
+        await api('updateLead', { leadId: document.getElementById('upLeadId').value, Status: document.getElementById('upStatus').value, Notes: document.getElementById('upNotes').value });
+        toast('Lead updated.', 'success'); closeModal('leadUpdateModal'); loadLeads();
+      } catch (err) { toast(err.message, 'error'); }
+    });
+
+    (async function init() {
+      const user = await requireLogin('trainer');
+      if (!user) return;
+      document.getElementById('trainerName').textContent = user.name;
+      document.getElementById('profileCard').innerHTML =
+        '<div class="stat-card"><div class="num">' + user.module + '</div><div class="label">Your Module</div></div>' +
+        '<div class="stat-card"><div class="num">' + user.email + '</div><div class="label">Email</div></div>';
+
+      document.getElementById('sheetLinkWrap').innerHTML = user.trainerSheetUrl
+        ? '<a class="btn small green" style="display:inline-block;width:auto;" target="_blank" href="' + user.trainerSheetUrl + '">Open My Live Sheet ↗</a>'
+        : '<p style="color:#6b6680;">Your live sheet hasn\'t been created yet — ask admin, or use the WhatsApp button below.</p>';
+
+      loadLeads();
+      loadWork();
+    })();
+  </script>
+</body>
+</html>

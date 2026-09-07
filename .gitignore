@@ -1,0 +1,27 @@
+# Private backend
+apps-script/
+
+# Private spreadsheet templates
+sheets-templates/
+
+# Private documentation
+README.md
+
+# Secrets and local configuration
+.env
+.env.*
+*.key
+*.pem
+*.p12
+*.json
+
+# Local/editor files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Build/dependency folders
+node_modules/
+dist/
+build/

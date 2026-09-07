@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Admin Dashboard — BUYE-Online</title>
+<link rel="stylesheet" href="assets/style.css" />
+</head>
+<body>
+  <div class="topbar">
+    <div><div class="brand">BUYE-Online</div><div class="tagline">Admin Control Dashboard</div></div>
+    <div>
+      <span id="adminName" style="margin-right:14px;"></span>
+      <button class="btn small ghost" style="color:#fff;border-color:#444" onclick="logout()">Logout</button>
+    </div>
+  </div>
+
+  <div class="dash-layout">
+    <div class="sidebar">
+      <button class="active" data-tab="stats">📊 Overview</button>
+      <button data-tab="leads">🎯 Leads</button>
+      <button data-tab="trainers">🧑‍🏫 Trainers</button>
+      <button data-tab="work">📚 Work Allocation</button>
+      <button data-tab="sheets">📄 Live Trainer Sheets</button>
+    </div>
+
+    <div class="main">
+      <!-- STATS -->
+      <div id="tab-stats">
+        <div class="panel-head"><h2>Overview</h2></div>
+        <div class="stats-grid" id="statsGrid"></div>
+      </div>
+
+      <!-- LEADS -->
+      <div id="tab-leads" style="display:none;">
+        <div class="panel-head">
+          <h2>Leads</h2>
+          <button class="btn small green" onclick="openModal('leadModal')">+ Add Lead</button>
+        </div>
+        <table>
+          <thead><tr><th>Name</th><th>Phone</th><th>Module</th><th>Status</th><th>Assigned Trainer</th><th>Actions</th></tr></thead>
+          <tbody id="leadsTable"></tbody>
+        </table>
+      </div>
+
+      <!-- TRAINERS -->
+      <div id="tab-trainers" style="display:none;">
+        <div class="panel-head"><h2>Trainers</h2></div>
+        <table>
+          <thead><tr><th>Name</th><th>Email</th><th>Module</th><th>Status</th><th>Live Sheet</th><th>Actions</th></tr></thead>
+          <tbody id="trainersTable"></tbody>
+        </table>
+      </div>
+
+      <!-- WORK ALLOCATION -->
+      <div id="tab-work" style="display:none;">
+        <div class="panel-head">
+          <h2>Work Allocation</h2>
+          <button class="btn small orange" onclick="openModal('workModal')">+ Assign Work</button>
+        </div>
+        <table>
+          <thead><tr><th>Trainer</th><th>Module</th><th>Class Date</th><th>Status</th><th>Remarks</th></tr></thead>
+          <tbody id="workTable"></tbody>
+        </table>
+      </div>
+
+      <!-- LIVE SHEETS -->
+      <div id="tab-sheets" style="display:none;">
+        <div class="panel-head"><h2>Live Trainer Sheets</h2></div>
+        <p class="sub" style="color:#6b6680;font-size:13px;">Select a trainer to view their live class-log spreadsheet — pulled in real time.</p>
+        <select id="sheetTrainerSelect" style="max-width:320px;"></select>
+        <div id="sheetDataWrap" style="margin-top:16px;"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: Add Lead -->
+  <div class="modal-overlay" id="leadModal">
+    <div class="modal-box">
+      <h3>Add Lead</h3>
+      <form id="leadForm">
+        <label>Name</label><input type="text" id="leadName" required />
+        <label>Phone</label><input type="tel" id="leadPhone" />
+        <label>Email</label><input type="email" id="leadEmail" />
+        <label>Module</label>
+        <select id="leadModule"><option>Speaking</option><option>Listening</option><option>Reading</option><option>Writing</option></select>
+        <label>Source</label><input type="text" id="leadSource" placeholder="e.g. Instagram, referral" />
+        <label>Notes</label><textarea id="leadNotes"></textarea>
+        <button class="btn green" type="submit">Save Lead</button>
+        <button type="button" class="btn ghost" style="margin-top:8px;" onclick="closeModal('leadModal')">Cancel</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: Assign lead to trainer -->
+  <div class="modal-overlay" id="assignModal">
+    <div class="modal-box">
+      <h3>Assign Lead to Trainer</h3>
+      <form id="assignForm">
+        <input type="hidden" id="assignLeadId" />
+        <label>Trainer</label>
+        <select id="assignTrainerSelect"></select>
+        <button class="btn purple" type="submit">Assign</button>
+        <button type="button" class="btn ghost" style="margin-top:8px;" onclick="closeModal('assignModal')">Cancel</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: Work allocation -->
+  <div class="modal-overlay" id="workModal">
+    <div class="modal-box">
+      <h3>Assign Work</h3>
+      <form id="workForm">
+        <label>Trainer</label>
+        <select id="workTrainerSelect"></select>
+        <label>Module</label>
+        <select id="workModule"><option>Speaking</option><option>Listening</option><option>Reading</option><option>Writing</option></select>
+        <label>Class Date</label>
+        <input type="date" id="workDate" />
+        <label>Remarks</label>
+        <textarea id="workRemarks"></textarea>
+        <button class="btn orange" type="submit">Assign</button>
+        <button type="button" class="btn ghost" style="margin-top:8px;" onclick="closeModal('workModal')">Cancel</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="assets/config.js"></script>
+  <script src="assets/app.js"></script>
+  <script>
+    let CURRENT_USER = null;
+    let TRAINERS_CACHE = [];
+
+    function openModal(id) { document.getElementById(id).classList.add('show'); }
+    function closeModal(id) { document.getElementById(id).classList.remove('show'); }
+
+    // ---- Tabs ----
+    document.querySelectorAll('.sidebar button').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        document.querySelectorAll('.sidebar button').forEach(function (b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+        document.querySelectorAll('[id^="tab-"]').forEach(function (t) { t.style.display = 'none'; });
+        document.getElementById('tab-' + btn.dataset.tab).style.display = 'block';
+        if (btn.dataset.tab === 'leads') loadLeads();
+        if (btn.dataset.tab === 'trainers') loadTrainers();
+        if (btn.dataset.tab === 'work') loadWork();
+        if (btn.dataset.tab === 'sheets') loadSheetsTab();
+      });
+    });
+
+    function badge(status) { return '<span class="badge ' + (status || '').toLowerCase() + '">' + status + '</span>'; }
+
+    async function loadStats() {
+      const data = await api('getDashboardStats', {});
+      const s = data.stats;
+      const grid = document.getElementById('statsGrid');
+      const cards = [
+        ['Total Leads', s.totalLeads], ['New Leads', s.newLeads], ['Converted', s.convertedLeads],
+        ['Total Trainers', s.totalTrainers], ['Pending Trainers', s.pendingTrainers], ['Active Trainers', s.activeTrainers],
+        ['Total Work Items', s.totalAllocations]
+      ];
+      grid.innerHTML = cards.map(function (c) {
+        return '<div class="stat-card"><div class="num">' + c[1] + '</div><div class="label">' + c[0] + '</div></div>';
+      }).join('') +
+        Object.keys(s.byModule).map(function (m) {
+          return '<div class="stat-card"><div class="num">' + s.byModule[m] + '</div><div class="label">' + m + ' Sessions</div></div>';
+        }).join('');
+    }
+
+    async function loadLeads() {
+      const data = await api('getLeads', {});
+      document.getElementById('leadsTable').innerHTML = data.leads.map(function (l) {
+        return '<tr><td>' + l.Name + '</td><td>' + l.Phone + '</td><td>' + l.Module + '</td><td>' + badge(l.Status) + '</td>' +
+          '<td>' + (l.AssignedTrainerID || '—') + '</td>' +
+          '<td><button class="btn small purple" onclick="openAssign(\'' + l.LeadID + '\')">Assign</button></td></tr>';
+      }).join('') || '<tr><td colspan="6">No leads yet.</td></tr>';
+    }
+
+    async function loadTrainers() {
+      const data = await api('getTrainers', {});
+      TRAINERS_CACHE = data.trainers;
+      document.getElementById('trainersTable').innerHTML = data.trainers.map(function (t) {
+        const sheetCell = t.trainerSheetUrl
+          ? '<a href="' + t.trainerSheetUrl + '" target="_blank">Open Sheet</a>'
+          : '<button class="btn small green" onclick="createSheet(\'' + t.userId + '\')">Create</button>';
+        const statusBtns = t.status === 'pending'
+          ? '<button class="btn small green" onclick="setTrainerStatus(\'' + t.userId + '\',\'active\')">Approve</button>'
+          : '<button class="btn small red" onclick="setTrainerStatus(\'' + t.userId + '\',\'inactive\')">Deactivate</button>';
+        return '<tr><td>' + t.name + '</td><td>' + t.email + '</td><td>' + t.module + '</td><td>' + badge(t.status) + '</td>' +
+          '<td>' + sheetCell + '</td><td>' + statusBtns + '</td></tr>';
+      }).join('') || '<tr><td colspan="6">No trainers yet.</td></tr>';
+    }
+
+    async function setTrainerStatus(id, status) {
+      try { await api('updateTrainerStatus', { trainerId: id, status: status }); toast('Trainer status updated.', 'success'); loadTrainers(); }
+      catch (e) { toast(e.message, 'error'); }
+    }
+
+    async function createSheet(id) {
+      try { const d = await api('createTrainerSheet', { trainerId: id }); toast('Live sheet created!', 'success'); loadTrainers(); }
+      catch (e) { toast(e.message, 'error'); }
+    }
+
+    async function loadWork() {
+      const data = await api('getWorkAllocations', {});
+      document.getElementById('workTable').innerHTML = data.workAllocations.map(function (w) {
+        return '<tr><td>' + w.TrainerID + '</td><td>' + w.Module + '</td><td>' + (w.ClassDate || '—') + '</td><td>' + badge(w.Status) + '</td><td>' + (w.Remarks || '') + '</td></tr>';
+      }).join('') || '<tr><td colspan="5">No work allocated yet.</td></tr>';
+    }
+
+    async function loadSheetsTab() {
+      if (!TRAINERS_CACHE.length) { const d = await api('getTrainers', {}); TRAINERS_CACHE = d.trainers; }
+      const sel = document.getElementById('sheetTrainerSelect');
+      sel.innerHTML = '<option value="">-- Select trainer --</option>' + TRAINERS_CACHE.filter(function (t) { return t.trainerSheetUrl; })
+        .map(function (t) { return '<option value="' + t.userId + '">' + t.name + '</option>'; }).join('');
+    }
+
+    document.getElementById('sheetTrainerSelect').addEventListener('change', async function () {
+      const wrap = document.getElementById('sheetDataWrap');
+      if (!this.value) { wrap.innerHTML = ''; return; }
+      wrap.innerHTML = 'Loading...';
+      try {
+        const data = await api('getTrainerSheetData', { trainerId: this.value });
+        if (!data.rows.length) { wrap.innerHTML = '<p>No entries yet in this trainer\'s sheet.</p>'; return; }
+        const headers = Object.keys(data.rows[0]);
+        let html = '<p><a href="' + data.sheetUrl + '" target="_blank">Open full sheet ↗</a></p><table><thead><tr>' +
+          headers.map(function (h) { return '<th>' + h + '</th>'; }).join('') + '</tr></thead><tbody>';
+        data.rows.forEach(function (r) { html += '<tr>' + headers.map(function (h) { return '<td>' + (r[h] || '') + '</td>'; }).join('') + '</tr>'; });
+        html += '</tbody></table>';
+        wrap.innerHTML = html;
+      } catch (e) { wrap.innerHTML = '<p>' + e.message + '</p>'; }
+    });
+
+    function openAssign(leadId) {
+      document.getElementById('assignLeadId').value = leadId;
+      const sel = document.getElementById('assignTrainerSelect');
+      sel.innerHTML = TRAINERS_CACHE.filter(function (t) { return t.status === 'active'; })
+        .map(function (t) { return '<option value="' + t.userId + '">' + t.name + ' (' + t.module + ')</option>'; }).join('');
+      openModal('assignModal');
+    }
+
+    document.getElementById('assignForm').addEventListener('submit', async function (e) {
+      e.preventDefault();
+      try {
+        await api('assignLead', { leadId: document.getElementById('assignLeadId').value, trainerId: document.getElementById('assignTrainerSelect').value });
+        toast('Lead assigned.', 'success'); closeModal('assignModal'); loadLeads();
+      } catch (err) { toast(err.message, 'error'); }
+    });
+
+    document.getElementById('leadForm').addEventListener('submit', async function (e) {
+      e.preventDefault();
+      try {
+        await api('addLead', {
+          name: document.getElementById('leadName').value, phone: document.getElementById('leadPhone').value,
+          email: document.getElementById('leadEmail').value, module: document.getElementById('leadModule').value,
+          source: document.getElementById('leadSource').value, notes: document.getElementById('leadNotes').value
+        });
+        toast('Lead added.', 'success'); closeModal('leadModal'); e.target.reset(); loadLeads();
+      } catch (err) { toast(err.message, 'error'); }
+    });
+
+    document.getElementById('workForm').addEventListener('submit', async function (e) {
+      e.preventDefault();
+      try {
+        await api('addWorkAllocation', {
+          trainerId: document.getElementById('workTrainerSelect').value, module: document.getElementById('workModule').value,
+          classDate: document.getElementById('workDate').value, remarks: document.getElementById('workRemarks').value
+        });
+        toast('Work assigned.', 'success'); closeModal('workModal'); e.target.reset(); loadWork();
+      } catch (err) { toast(err.message, 'error'); }
+    });
+
+    document.getElementById('workModal').addEventListener('transitionend', function () {}); // no-op, keeps structure explicit
+
+    (async function init() {
+      CURRENT_USER = await requireLogin('admin');
+      if (!CURRENT_USER) return;
+      document.getElementById('adminName').textContent = CURRENT_USER.name;
+      await loadStats();
+      const d = await api('getTrainers', {});
+      TRAINERS_CACHE = d.trainers;
+      document.getElementById('workTrainerSelect').innerHTML = TRAINERS_CACHE.filter(function (t) { return t.status === 'active'; })
+        .map(function (t) { return '<option value="' + t.userId + '">' + t.name + ' (' + t.module + ')</option>'; }).join('');
+    })();
+  </script>
+</body>
+</html>

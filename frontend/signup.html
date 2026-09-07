@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Create Account — BUYE-Online</title>
+<link rel="stylesheet" href="assets/style.css" />
+</head>
+<body>
+  <div class="auth-wrap">
+    <div class="card">
+      <h1>Create your account</h1>
+      <p class="sub">Sign up as a trainer or a student</p>
+
+      <form id="signupForm">
+        <label>I am a</label>
+        <select id="role" required>
+          <option value="student">Student</option>
+          <option value="trainer">Trainer</option>
+        </select>
+
+        <label>Full Name</label>
+        <input type="text" id="name" required />
+
+        <label>Email</label>
+        <input type="email" id="email" required />
+
+        <label>Phone</label>
+        <input type="tel" id="phone" placeholder="+91XXXXXXXXXX" />
+
+        <div id="moduleField" style="display:none;">
+          <label>Module Specialization (for trainers)</label>
+          <select id="module">
+            <option value="Speaking">Speaking</option>
+            <option value="Listening">Listening</option>
+            <option value="Reading">Reading</option>
+            <option value="Writing">Writing</option>
+          </select>
+        </div>
+
+        <label>Password</label>
+        <input type="password" id="password" required minlength="6" />
+
+        <button class="btn green" type="submit">Create Account</button>
+      </form>
+
+      <div class="foot-links"><a href="index.html">Already have an account? Log in</a></div>
+    </div>
+  </div>
+
+  <script src="assets/config.js"></script>
+  <script src="assets/app.js"></script>
+  <script>
+    document.getElementById('role').addEventListener('change', function () {
+      document.getElementById('moduleField').style.display = this.value === 'trainer' ? 'block' : 'none';
+    });
+
+    document.getElementById('signupForm').addEventListener('submit', async function (e) {
+      e.preventDefault();
+      const role = document.getElementById('role').value;
+      try {
+        const data = await api('signup', {
+          role: role,
+          name: document.getElementById('name').value.trim(),
+          email: document.getElementById('email').value.trim(),
+          phone: document.getElementById('phone').value.trim(),
+          module: role === 'trainer' ? document.getElementById('module').value : '',
+          password: document.getElementById('password').value
+        });
+        toast(data.message, 'success');
+        setTimeout(function () { window.location.href = 'index.html'; }, 1200);
+      } catch (err) {
+        toast(err.message, 'error');
+      }
+    });
+  </script>
+</body>
+</html>

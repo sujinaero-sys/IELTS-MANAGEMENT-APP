@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Login — BUYE-Online</title>
+<link rel="stylesheet" href="assets/style.css" />
+</head>
+<body>
+  <div class="auth-wrap">
+    <div class="card">
+      <h1>Welcome back</h1>
+      <p class="sub">Log in to your BUYE-Online IELTS account</p>
+
+      <form id="loginForm">
+        <label>Email</label>
+        <input type="email" id="email" required placeholder="you@example.com" />
+        <label>Password</label>
+        <input type="password" id="password" required placeholder="••••••••" />
+        <button class="btn" type="submit">Log In</button>
+      </form>
+
+      <div class="foot-links">
+        <a href="forgot-password.html">Forgot password?</a> &nbsp;•&nbsp;
+        <a href="signup.html">Create account</a>
+      </div>
+      <div class="foot-links">
+        Need help? <a href="#" id="waLink">Chat with us on WhatsApp</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="assets/config.js"></script>
+  <script src="assets/app.js"></script>
+  <script>
+    document.getElementById('waLink').href = 'https://wa.me/' + WHATSAPP_NUMBER;
+
+    // Auto-login: if a valid session token already exists, skip straight to dashboard.
+    (async function autoLogin() {
+      const token = getToken();
+      if (!token) return;
+      try {
+        const data = await api('checkSession', {});
+        setStoredUser(data.user);
+        window.location.href = data.user.role === 'admin' ? 'admin-dashboard.html' : 'trainer-dashboard.html';
+      } catch (e) { clearToken(); }
+    })();
+
+    document.getElementById('loginForm').addEventListener('submit', async function (e) {
+      e.preventDefault();
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+      try {
+        const data = await api('login', { email: email, password: password });
+        setToken(data.token);
+        setStoredUser(data.user);
+        toast('Welcome, ' + data.user.name + '!', 'success');
+        setTimeout(function () {
+          window.location.href = data.user.role === 'admin' ? 'admin-dashboard.html' : 'trainer-dashboard.html';
+        }, 400);
+      } catch (err) {
+        toast(err.message, 'error');
+      }
+    });
+  </script>
+</body>
+</html>
