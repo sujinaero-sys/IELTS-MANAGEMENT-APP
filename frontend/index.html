@@ -3,68 +3,758 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
 <title>Login — BUYE-Online</title>
+<meta
+  name="description"
+  content="BUYE-Online IELTS learning platform — access your account, meet our IELTS trainers and get started."
+>
+
 <link rel="stylesheet" href="assets/style.css" />
+
+<style>
+:root {
+  --navy: #17143f;
+  --navy2: #27215b;
+  --green: #18b878;
+  --green2: #0fa568;
+  --gold: #f3bd43;
+  --text: #181a3d;
+  --muted: #70748a;
+  --white: #ffffff;
+  --soft: #f7f8fc;
+  --line: #e7e8ef;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at 10% 15%, rgba(243,189,67,.16), transparent 28%),
+    radial-gradient(circle at 90% 30%, rgba(24,184,120,.12), transparent 30%),
+    linear-gradient(135deg, #fffdf7, #f7f9fc 55%, #edf5f5);
+}
+
+/* =====================================================
+   MAIN SITE HEADER
+===================================================== */
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: rgba(23,20,63,.97);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 6px 25px rgba(23,20,63,.12);
+}
+
+.header-inner {
+  width: min(100%, 1180px);
+  min-height: 76px;
+  margin: auto;
+  padding: 10px 22px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  color: #fff;
+  text-decoration: none;
+  min-width: 0;
+}
+
+.brand-logo {
+  width: 52px;
+  height: 52px;
+  flex: 0 0 52px;
+  object-fit: contain;
+  object-position: center;
+  border-radius: 12px;
+  background: #fff8cf;
+  box-shadow: 0 5px 18px rgba(0,0,0,.14);
+}
+
+.brand-copy {
+  display: flex;
+  flex-direction: column;
+}
+
+.brand-name {
+  font-size: 20px;
+  font-weight: 900;
+  letter-spacing: -.5px;
+  line-height: 1;
+}
+
+.brand-tagline {
+  margin-top: 4px;
+  color: rgba(255,255,255,.68);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+}
+
+.main-nav {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 7px;
+}
+
+.nav-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 42px;
+  padding: 9px 14px;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  color: rgba(255,255,255,.88);
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 850;
+  transition: transform .2s ease, background .2s ease, border-color .2s ease;
+}
+
+.nav-link:hover {
+  transform: translateY(-1px);
+  background: rgba(255,255,255,.09);
+}
+
+.nav-link.active {
+  background: rgba(255,255,255,.12);
+  border-color: rgba(255,255,255,.12);
+  color: #fff;
+}
+
+.nav-link.trainers {
+  background: linear-gradient(135deg, #1cbd7e, #0fa568);
+  color: #fff;
+  box-shadow: 0 8px 22px rgba(24,184,120,.22);
+}
+
+.nav-link.trainers:hover {
+  background: linear-gradient(135deg, #20c987, #0fa568);
+}
+
+.nav-link.signup {
+  background: linear-gradient(135deg, #f3bd43, #e8a91e);
+  color: var(--navy);
+  box-shadow: 0 8px 22px rgba(243,189,67,.18);
+}
+
+.nav-link.signup:hover {
+  background: linear-gradient(135deg, #f6c957, #e8a91e);
+}
+
+.menu-toggle {
+  display: none;
+  width: 44px;
+  height: 44px;
+  border: 1px solid rgba(255,255,255,.18);
+  border-radius: 12px;
+  background: rgba(255,255,255,.08);
+  color: #fff;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+/* =====================================================
+   WELCOME AREA
+===================================================== */
+
+.welcome-strip {
+  width: min(100%, 1180px);
+  margin: 0 auto;
+  padding: 28px 22px 0;
+  text-align: center;
+}
+
+.welcome-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 12px;
+  border: 1px solid rgba(23,20,63,.08);
+  border-radius: 999px;
+  background: rgba(255,255,255,.78);
+  color: var(--navy);
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.welcome-badge span {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--green);
+}
+
+.welcome-strip h1 {
+  margin: 12px 0 5px;
+  color: var(--navy);
+  font-size: clamp(25px, 4vw, 35px);
+  line-height: 1.1;
+  letter-spacing: -1px;
+}
+
+.welcome-strip p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+/* Keep the existing auth component centered and compatible. */
+.auth-wrap {
+  padding-top: 20px !important;
+}
+
+/* =====================================================
+   QUICK LINKS
+===================================================== */
+
+.quick-links {
+  width: min(100%, 620px);
+  margin: 20px auto 0;
+  padding: 0 20px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 9px;
+}
+
+.quick-link {
+  min-height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 9px 10px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: rgba(255,255,255,.82);
+  color: var(--navy);
+  text-decoration: none;
+  font-size: 11px;
+  font-weight: 850;
+  box-shadow: 0 7px 22px rgba(23,20,63,.05);
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.quick-link:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px rgba(23,20,63,.09);
+}
+
+.quick-link.primary {
+  border-color: rgba(24,184,120,.25);
+}
+
+/* =====================================================
+   FOOTER
+===================================================== */
+
+.site-footer {
+  padding: 22px 20px 30px;
+  text-align: center;
+  color: #85899b;
+  font-size: 11px;
+}
+
+/* =====================================================
+   MOBILE NAVIGATION
+===================================================== */
+
+@media (max-width: 760px) {
+
+  .header-inner {
+    min-height: 68px;
+    padding: 9px 15px;
+  }
+
+  .brand-logo {
+    width: 46px;
+    height: 46px;
+    flex-basis: 46px;
+  }
+
+  .brand-name {
+    font-size: 18px;
+  }
+
+  .brand-tagline {
+    font-size: 8px;
+    letter-spacing: 1.2px;
+  }
+
+  .menu-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .main-nav {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 12px;
+    right: 12px;
+    display: none;
+    flex-direction: column;
+    align-items: stretch;
+    padding: 10px;
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 17px;
+    background: rgba(23,20,63,.98);
+    box-shadow: 0 18px 45px rgba(23,20,63,.24);
+  }
+
+  .main-nav.open {
+    display: flex;
+  }
+
+  .nav-link {
+    width: 100%;
+    justify-content: flex-start;
+    padding: 12px 14px;
+  }
+
+  .welcome-strip {
+    padding-top: 24px;
+  }
+
+  .quick-links {
+    grid-template-columns: 1fr;
+    max-width: 430px;
+  }
+}
+
+@media (max-width: 420px) {
+
+  .brand-copy {
+    display: none;
+  }
+
+  .header-inner {
+    justify-content: space-between;
+  }
+
+}
+</style>
 </head>
+
 <body>
-  <div class="auth-wrap">
-    <div class="card">
-      <h1>Welcome back</h1>
-      <p class="sub">Log in to your BUYE-Online IELTS account</p>
 
-      <form id="loginForm">
-        <label>Email</label>
-        <input type="email" id="email" required placeholder="you@example.com" />
-        <label>Password</label>
-        <input type="password" id="password" required placeholder="••••••••" />
-        <button class="btn" type="submit">Log In</button>
-      </form>
+<!-- ===================================================
+     HEADER / QUICK NAVIGATION
+=================================================== -->
 
-      <div class="foot-links">
-        <a href="forgot-password.html">Forgot password?</a> &nbsp;•&nbsp;
-        <a href="signup.html">Create account</a>
-      </div>
-      <div class="foot-links">
-        Need help? <a href="#" id="waLink">Chat with us on WhatsApp</a>
-      </div>
+<header class="site-header">
+
+  <div class="header-inner">
+
+    <a href="index.html" class="brand" aria-label="BUYE-Online Home">
+
+      <img
+        src="assets/buye-logo.png"
+        class="brand-logo"
+        alt="BUYE-Online logo"
+      />
+
+      <span class="brand-copy">
+        <span class="brand-name">BUYE-Online</span>
+        <span class="brand-tagline">Learn, Grow, Excel</span>
+      </span>
+
+    </a>
+
+    <button
+      type="button"
+      id="menuToggle"
+      class="menu-toggle"
+      aria-label="Open navigation menu"
+      aria-expanded="false"
+    >
+      ☰
+    </button>
+
+    <nav id="mainNav" class="main-nav" aria-label="Main navigation">
+
+      <a
+        href="index.html"
+        class="nav-link active"
+      >
+        🏠 Home
+      </a>
+
+      <a
+        href="trainers.html"
+        class="nav-link trainers"
+      >
+        🎓 IELTS Trainers
+      </a>
+
+      <a
+        href="signup.html"
+        class="nav-link signup"
+      >
+        ✨ Sign Up
+      </a>
+
+      <a
+        href="#login"
+        class="nav-link"
+        id="loginNavLink"
+      >
+        🔐 Login
+      </a>
+
+    </nav>
+
+  </div>
+
+</header>
+
+
+<!-- ===================================================
+     WELCOME
+=================================================== -->
+
+<section class="welcome-strip">
+
+  <div class="welcome-badge">
+    <span></span>
+    BUYE-Online IELTS Learning
+  </div>
+
+  <h1>Welcome back</h1>
+
+  <p>
+    Log in to your BUYE-Online IELTS account
+  </p>
+
+</section>
+
+
+<!-- ===================================================
+     LOGIN
+=================================================== -->
+
+<div class="auth-wrap" id="login">
+
+  <div class="card">
+
+    <h1>Welcome back</h1>
+
+    <p class="sub">
+      Log in to your BUYE-Online IELTS account
+    </p>
+
+    <form id="loginForm">
+
+      <label>Email</label>
+
+      <input
+        type="email"
+        id="email"
+        required
+        autocomplete="email"
+        placeholder="you@example.com"
+      />
+
+      <label>Password</label>
+
+      <input
+        type="password"
+        id="password"
+        required
+        autocomplete="current-password"
+        placeholder="••••••••"
+      />
+
+      <button
+        class="btn"
+        type="submit"
+      >
+        Log In
+      </button>
+
+    </form>
+
+    <div class="foot-links">
+
+      <a href="forgot-password.html">
+        Forgot password?
+      </a>
+
+      &nbsp;•&nbsp;
+
+      <a href="signup.html">
+        Create account
+      </a>
+
     </div>
+
+    <div class="foot-links">
+
+      Need help?
+
+      <a
+        href="#"
+        id="waLink"
+      >
+        Chat with us on WhatsApp
+      </a>
+
+    </div>
+
   </div>
 
-  <script src="assets/config.js"></script>
-  <script src="assets/app.js"></script>
-  <script>
-    document.getElementById('waLink').href = 'https://wa.me/' + WHATSAPP_NUMBER;
+</div>
 
-    // Auto-login: if a valid session token already exists, skip straight to dashboard.
-    (async function autoLogin() {
-      const token = getToken();
-      if (!token) return;
-      try {
-        const data = await api('checkSession', {});
-        setStoredUser(data.user);
-        window.location.href = data.user.role === 'admin' ? 'admin-dashboard.html' : 'trainer-dashboard.html';
-      } catch (e) { clearToken(); }
-    })();
 
-    document.getElementById('loginForm').addEventListener('submit', async function (e) {
-      e.preventDefault();
-      const email = document.getElementById('email').value.trim();
-      const password = document.getElementById('password').value;
-      try {
-        const data = await api('login', { email: email, password: password });
-        setToken(data.token);
-        setStoredUser(data.user);
-        toast('Welcome, ' + data.user.name + '!', 'success');
-        setTimeout(function () {
-          window.location.href = data.user.role === 'admin' ? 'admin-dashboard.html' : 'trainer-dashboard.html';
-        }, 400);
-      } catch (err) {
-        toast(err.message, 'error');
+<!-- ===================================================
+     QUICK ACCESS
+=================================================== -->
+
+<div class="quick-links">
+
+  <a
+    href="trainers.html"
+    class="quick-link primary"
+  >
+    🎓 Explore IELTS Trainers
+  </a>
+
+  <a
+    href="signup.html"
+    class="quick-link"
+  >
+    📝 Create Account
+  </a>
+
+  <a
+    href="forgot-password.html"
+    class="quick-link"
+  >
+    🔑 Forgot Password
+  </a>
+
+</div>
+
+
+<footer class="site-footer">
+  BUYE-Online • Learn, Grow, Excel
+</footer>
+
+
+<script src="assets/config.js"></script>
+<script src="assets/app.js"></script>
+
+<script>
+/* =====================================================
+   WHATSAPP
+===================================================== */
+
+document.getElementById('waLink').href =
+  'https://wa.me/' + WHATSAPP_NUMBER;
+
+
+/* =====================================================
+   MOBILE MENU
+===================================================== */
+
+const menuToggle =
+  document.getElementById('menuToggle');
+
+const mainNav =
+  document.getElementById('mainNav');
+
+menuToggle.addEventListener(
+  'click',
+  function () {
+
+    const isOpen =
+      mainNav.classList.toggle('open');
+
+    menuToggle.setAttribute(
+      'aria-expanded',
+      String(isOpen)
+    );
+
+    menuToggle.textContent =
+      isOpen ? '×' : '☰';
+
+  }
+);
+
+
+/* Close mobile menu after navigation. */
+mainNav
+  .querySelectorAll('a')
+  .forEach(function(link) {
+
+    link.addEventListener(
+      'click',
+      function() {
+
+        mainNav.classList.remove('open');
+
+        menuToggle.setAttribute(
+          'aria-expanded',
+          'false'
+        );
+
+        menuToggle.textContent = '☰';
+
       }
-    });
-  </script>
-  <div class="foot-links">
-    <a href="trainers.html">🎓 Meet Our Trainers</a>
-  </div>
+    );
+
+  });
+
+
+/* =====================================================
+   LOGIN NAVIGATION
+===================================================== */
+
+document
+  .getElementById('loginNavLink')
+  .addEventListener(
+    'click',
+    function(event) {
+
+      event.preventDefault();
+
+      document
+        .getElementById('login')
+        .scrollIntoView({
+          behavior: 'smooth',
+          block: 'center'
+        });
+
+      setTimeout(function() {
+
+        document
+          .getElementById('email')
+          .focus();
+
+      }, 450);
+
+    }
+  );
+
+
+/* =====================================================
+   AUTO-LOGIN
+===================================================== */
+
+(async function autoLogin() {
+
+  const token = getToken();
+
+  if (!token) return;
+
+  try {
+
+    const data =
+      await api('checkSession', {});
+
+    setStoredUser(data.user);
+
+    window.location.href =
+      data.user.role === 'admin'
+        ? 'admin-dashboard.html'
+        : 'trainer-dashboard.html';
+
+  } catch (e) {
+
+    clearToken();
+
+  }
+
+})();
+
+
+/* =====================================================
+   LOGIN
+===================================================== */
+
+document
+  .getElementById('loginForm')
+  .addEventListener(
+    'submit',
+    async function(e) {
+
+      e.preventDefault();
+
+      const email =
+        document
+          .getElementById('email')
+          .value
+          .trim();
+
+      const password =
+        document
+          .getElementById('password')
+          .value;
+
+      try {
+
+        const data =
+          await api(
+            'login',
+            {
+              email: email,
+              password: password
+            }
+          );
+
+        setToken(data.token);
+
+        setStoredUser(data.user);
+
+        toast(
+          'Welcome, ' +
+          data.user.name +
+          '!',
+          'success'
+        );
+
+        setTimeout(
+          function() {
+
+            window.location.href =
+              data.user.role === 'admin'
+                ? 'admin-dashboard.html'
+                : 'trainer-dashboard.html';
+
+          },
+          400
+        );
+
+      } catch (err) {
+
+        toast(
+          err.message,
+          'error'
+        );
+
+      }
+
+    }
+  );
+</script>
+
 </body>
 </html>
